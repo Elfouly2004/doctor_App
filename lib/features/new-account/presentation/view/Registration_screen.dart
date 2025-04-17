@@ -2,11 +2,15 @@ import 'package:doctor/core/utils/app_colors.dart';
 import 'package:doctor/features/new-account/presentation/view/widgets/doctor_widget.dart';
 import 'package:doctor/features/new-account/presentation/view/widgets/sick_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/background_image/custom_background.dart';
 import '../../../../core/utils/app_texts.dart';
 import '../../../Login/presentation/view/widgets/custom_Button.dart';
+import '../../data/repo/Greate_account_impelemntation.dart';
+import '../../data/repo/Greate_account_repo.dart';
+import '../controller/greateaccount_cubit.dart';
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -28,6 +32,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blue.shade50,
       body: CustomBackground(
         child: Center(
@@ -67,8 +72,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> with SingleTick
                     controller: _tabController,
                     children: [
                       DoctorWidget(),
-                      SickWidget(),
-                    ],
+                   BlocProvider(
+                    create: (context) => GreateAccountCubit(GreateAccountImplementation()),
+                     child: DoctorWidget(),
+                        ) ,
+
+      ],
                   ),
                 ),
 

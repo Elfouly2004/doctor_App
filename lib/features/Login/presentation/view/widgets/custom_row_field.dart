@@ -7,9 +7,9 @@ import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_texts.dart';
 
 class CustomRowField extends StatelessWidget {
-  const CustomRowField({super.key, required this.txt});
+  const CustomRowField({super.key, required this.txt, this.controller});
   final String txt;
-
+final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -36,6 +36,7 @@ class CustomRowField extends StatelessWidget {
           SizedBox(
             width: 210.w,
             child: TextFormField(
+              controller: controller,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
