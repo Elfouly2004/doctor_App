@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/background_image/custom_background.dart';
 import '../../core/utils/app_texts.dart';
+import '../Login/presentation/view/login_screen.dart';
 import '../Login/presentation/view/widgets/custom_Button.dart';
 class ProfleScreen extends StatelessWidget {
   const ProfleScreen({super.key});
@@ -117,6 +118,10 @@ class ProfleScreen extends StatelessWidget {
                       CustomButton(
                         txt:AppTexts.logout,
                         onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => LoginScreen()),
+                          );
                         },),
 
 

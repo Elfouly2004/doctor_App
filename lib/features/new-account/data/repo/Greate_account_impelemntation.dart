@@ -8,7 +8,7 @@ import 'Greate_account_repo.dart';
 
 class GreateAccountImplementation implements GreateAccountRepo {
   @override
-  Future<Either<Failure, UserModelToRegister>> Greate_account({
+  Future<Either<Failure, UserModelToRegister>> Greate_account_Sick({
     required UserModelToRegister userModelToRegister,
   }) async {
     try {
@@ -41,6 +41,45 @@ class GreateAccountImplementation implements GreateAccountRepo {
           else {
         return left(ApiFailure(message: "Server error: ${response.statusCode}"));
       }
+    } on SocketException {
+      return left(NoInternetFailure(message: "No Internet connection"));
+    } catch (e) {
+      return left(ApiFailure(message: e.toString()));
+    }
+  }
+
+
+
+
+  Future<Either<Failure, DoctorLoginModel>> Greate_account_Doctor({
+    required DoctorLoginModel doctorLoginModel  }) async {
+    try {
+      final uri = Uri.parse("http://192.168.1.8:3000/doctor/register_doctor");
+
+      final response = await http.post(
+        uri,
+        body: doctorLoginModel.toJson(),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
+
+        final Map<String, dynamic> body = jsonDecode(response.body);
+
+        final String? token = body["token"];
+        final String? msg = body["message"];
+
+        if (msg == "Doctor registered successfully!" && token != null) {
+          print("Token: $token");
+          return right(doctorLoginModel);
+        } else {
+          return left(ApiFailure(message: body["message"] ?? "Registration failed"));
+        }
+
     } on SocketException {
       return left(NoInternetFailure(message: "No Internet connection"));
     } catch (e) {

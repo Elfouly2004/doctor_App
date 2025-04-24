@@ -7,14 +7,16 @@ import '../../../../../core/utils/app_colors.dart';
 
 class CustomRowField_time extends StatefulWidget {
 
- CustomRowField_time({super.key, required this.txt});
+ CustomRowField_time({super.key, required this.txt, this.controller});
   final String txt;
+ final TextEditingController? controller;
 
   @override
   State<CustomRowField_time> createState() => _CustomRowField_timeState();
 }
 
 class _CustomRowField_timeState extends State<CustomRowField_time> {
+
   @override
   Widget build(BuildContext context) {
 
@@ -45,6 +47,7 @@ class _CustomRowField_timeState extends State<CustomRowField_time> {
             width: 115.w,
             height: 30.h,
             child: TextFormField(
+              controller: widget.controller,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,

@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../core/background_image/custom_background.dart';
-import '../../../new-account/presentation/view/Registration_screen.dart';
-import '../../data/repo/login_repo_implementation.dart';
 import '../controller/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -18,6 +15,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // تعيين المتحكمات للنصوص
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomBackground(
@@ -34,13 +35,16 @@ class LoginScreen extends StatelessWidget {
                   ),
                 );
               } else if (state is LoginSuccessState) {
-                Navigator.pop(context); // remove loader
+                Navigator.pop(context); // إزالة المؤشر الدوار
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Login Successful")),
                 );
+                // مسح النصوص بعد تسجيل الدخول
+                emailController.clear();
+                passwordController.clear();
                 Navigator.pushNamed(context, AppRoutes.BookDoctor);
               } else if (state is LoginFailureState) {
-                Navigator.pop(context); // remove loader
+                Navigator.pop(context); // إزالة المؤشر الدوار
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.errorMessage)),
                 );
@@ -61,9 +65,9 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
-                  CustomRowField(txt: AppTexts.email, controller: cubit.Email),
+                  CustomRowField(txt: AppTexts.email, controller: emailController),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
-                  CustomRowField(txt: AppTexts.pass, controller: cubit.password),
+                  CustomRowField(txt: AppTexts.pass, controller: passwordController),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
                   CustomButton(
                     txt: AppTexts.login_button,

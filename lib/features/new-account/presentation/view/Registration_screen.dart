@@ -1,6 +1,6 @@
 import 'package:doctor/core/utils/app_colors.dart';
+import 'package:doctor/features/new-account/presentation/view/widgets/sickk_widget.dart';
 import 'package:doctor/features/new-account/presentation/view/widgets/doctor_widget.dart';
-import 'package:doctor/features/new-account/presentation/view/widgets/sick_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +37,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> with SingleTick
       body: CustomBackground(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.only(top: 250.h),
+            padding: EdgeInsets.only(top: 170.h),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -60,6 +60,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> with SingleTick
                     tabs: [
                       Tab(text: "تسجيل\n طبيب"),
                       Tab(text: "تسجيل\n مريض"),
+
+
                     ],
                   ),
                 ),
@@ -71,11 +73,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> with SingleTick
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      DoctorWidget(),
-                   BlocProvider(
+
+                      SickWidget(),
+
+
+
+                      BlocProvider(
                     create: (context) => GreateAccountCubit(GreateAccountImplementation()),
-                     child: DoctorWidget(),
-                        ) ,
+                     child: DoctorWidget(),) ,
+
+
 
       ],
                   ),

@@ -7,8 +7,9 @@ import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_texts.dart';
 
 class CustomRowField extends StatelessWidget {
-  const CustomRowField({super.key, required this.txt, this.controller});
+  const CustomRowField({super.key, required this.txt, this.controller, this.keyboardType});
   final String txt;
+  final TextInputType? keyboardType;
 final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ final TextEditingController? controller;
           SizedBox(
             width: 210.w,
             child: TextFormField(
+              keyboardType: keyboardType,
               controller: controller,
               decoration: InputDecoration(
                 filled: true,

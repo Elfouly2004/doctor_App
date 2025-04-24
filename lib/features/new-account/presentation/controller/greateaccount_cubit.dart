@@ -32,7 +32,7 @@ class GreateAccountCubit extends Cubit<GreateAccountState> {
       } else if (password.text != cpassword.text) {
         emit(GreateAccountFailureState(errorMessage: "Passwords do not match."));
       } else {
-        var result = await greateAccountRepo.Greate_account(
+        var result = await greateAccountRepo.Greate_account_Sick(
           userModelToRegister: UserModelToRegister(
             username: userName.text,
             email: Email.text.trim(),

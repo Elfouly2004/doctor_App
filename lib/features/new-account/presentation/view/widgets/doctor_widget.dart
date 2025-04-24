@@ -1,275 +1,308 @@
-import 'package:doctor/core/utils/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:doctor/features/new-account/presentation/view/widgets/txtfield_time.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_texts.dart';
+import '../../../../Home/presentation/view/book_doctor.dart';
 import '../../../../Login/presentation/view/widgets/custom_Button.dart';
 import '../../../../Login/presentation/view/widgets/custom_row_field.dart';
-import '../../../../Home/presentation/view/book_doctor.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../data/model/location_model.dart';
 import '../../../data/model/new_account_model.dart';
+import '../../../data/model/spclazition_model.dart';
+import '../../../data/repo/Greate_account_impelemntation.dart';
+import '../../controller/doctoraccount_cubit.dart';
 import '../../controller/greateaccount_cubit.dart';
-import '../../controller/greateaccount_state.dart';
-class DoctorWidget extends StatelessWidget {
-  const DoctorWidget({super.key});
+
+class SickWidget extends StatefulWidget {
+  const SickWidget({super.key});
+
+  @override
+  State<SickWidget> createState() => _SickWidgetState();
+}
+
+class _SickWidgetState extends State<SickWidget> {
+  List<LocationModel> locations = [];
+  LocationModel? selectedLocation;
+  List<SpecializationModel> specialization = [];
+  SpecializationModel? selectedSpecialization;
+  TextEditingController streetController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController zipController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    loadLocations();
+    loadspec();
+  }
+
+  Future<void> loadLocations() async {
+    try {
+      final result = await fetchLocations();
+      setState(() {
+        locations = result;
+      });
+    } catch (e) {
+      print('Error fetching locations: $e');
+    }
+  }
+
+  Future<void> loadspec() async {
+    try {
+      final result = await fetchSpecializations();
+      setState(() {
+        specialization = result;
+      });
+    } catch (e) {
+      print('Error fetching locations: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<GreateAccountCubit, GreateAccountState>(
+    final cubit = BlocProvider.of<DoctoraccountCubit>(context);
+
+    return BlocConsumer<DoctoraccountCubit, DoctoraccountState>(
       listener: (context, state) {
-        if (state is GreateAccountLoadingState) {
-          showDialog(
-            context: context,
-            builder: (_) => Center(child: CircularProgressIndicator(color: AppColors.button,)),
-          );
-        } else if (state is GreateAccountSuccessState) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Account Created Successfully")),
-          );
+        if (state is GreateAccountDocFailureState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+        }
+        if (state is GreateAccountDocSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Account created successfully')));
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => BookDoctor()),
           );
-        } else if (state is GreateAccountFailureState) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage)),
-          );
         }
       },
       builder: (context, state) {
-        final cubit = BlocProvider.of<GreateAccountCubit>(context);
+        if (state is GreateAccountDocLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        }
 
         return Padding(
           padding: const EdgeInsets.all(17),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomRowField(txt: AppTexts.name,controller: cubit.userName,),
+              SizedBox(height: 16.h),
+              CustomRowField(txt: AppTexts.email,controller: cubit.Email,),
+              SizedBox(height: 16.h),
+              CustomRowField(txt: AppTexts.pass,controller: cubit.password,),
+              SizedBox(height: 20.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomRowField_time(txt: AppTexts.cv),
+                  CustomRowField_time(txt: AppTexts.price,controller: cubit.pricecon,),
+                ],
+              ),
+              SizedBox(height: 16.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    "الموقع",
+                    style: GoogleFonts.almarai(
+                      color: AppColors.white,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    "التخصص",
+                    style: GoogleFonts.almarai(
+                      color: AppColors.white,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
 
-                CustomRowField(txt: AppTexts.name, controller: cubit.userName),
-                SizedBox(height: MediaQuery.sizeOf(context).height * 0.025),
 
-                CustomRowField(txt: AppTexts.email, controller: cubit.Email),
-                SizedBox(height: MediaQuery.sizeOf(context).height * 0.025),
+                  Expanded(
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 3,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton2<LocationModel>(
+                            isExpanded: true,
+                            hint: const Text(
+                              'Choose Location',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            items: locations.map((loc) {
+                              return DropdownMenuItem<LocationModel>(
+                                value: loc,
+                                child: Text(
+                                  loc.name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            value: selectedLocation,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedLocation = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16),
 
-                CustomRowField(txt: AppTexts.pass, controller: cubit.password),
-                SizedBox(height: MediaQuery.sizeOf(context).height * 0.025),
 
-                CustomRowField(txt: AppTexts.repass, controller: cubit.cpassword),
-                SizedBox(height: MediaQuery.sizeOf(context).height * 0.025),
+                  Expanded(
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 3,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton2<SpecializationModel>(
+                            isExpanded: true,
+                            hint: const Text(
+                              'Choose Specialization',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            items: specialization.map((spec) {
+                              return DropdownMenuItem<SpecializationModel>(
+                                value: spec,
+                                child: Text(
+                                  spec.name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            value: selectedSpecialization,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedSpecialization = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
 
-                SizedBox(height: 20),
+
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: streetController,
+                      style: TextStyle(color: Colors.black, fontSize: 14), // تصغير حجم الخط داخل الـ TextField
+                      decoration: InputDecoration(
+                        hintText: "أدخل الشارع", // النص التلميحي
+                        hintStyle: TextStyle(color: Colors.grey), // لون النص التلميحي
+                        filled: true,
+                        fillColor: Colors.white, // تغيير الخلفية إلى اللون الأبيض
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15), // تحديد الـ border radius
+                          borderSide: BorderSide.none, // إزالة الحدود الظاهرة
+                        ),
+                        contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0), // تصغير حجم الـ TextField
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Expanded(
+                    child: TextField(
+                      controller: cityController,
+                      style: TextStyle(color: Colors.black, fontSize: 14), // تصغير حجم الخط داخل الـ TextField
+                      decoration: InputDecoration(
+                        hintText: "أدخل المدينة", // النص التلميحي
+                        hintStyle: TextStyle(color: Colors.grey), // لون النص التلميحي
+                        filled: true,
+                        fillColor: Colors.white, // تغيير الخلفية إلى اللون الأبيض
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15), // تحديد الـ border radius
+                          borderSide: BorderSide.none, // إزالة الحدود الظاهرة
+                        ),
+                        contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0), // تصغير حجم الـ TextField
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 5),
+              TextField(
+                controller: zipController,
+                style: TextStyle(color: Colors.black, fontSize: 14), // تصغير حجم الخط داخل الـ TextField
+                decoration: InputDecoration(
+                  hintText: "أدخل الرمز البريدي", // النص التلميحي
+                  hintStyle: TextStyle(color: Colors.grey), // لون النص التلميحي
+                  filled: true,
+                  fillColor: Colors.white, // تغيير الخلفية إلى اللون الأبيض
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15), // تحديد الـ border radius
+                    borderSide: BorderSide.none, // إزالة الحدود الظاهرة
+                  ),
+                  contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0), // تصغير حجم الـ TextField
+                ),
+              ),
 
 
-                CustomButton(
+
+
+              SizedBox(height: 25),
+
+              Center(
+                child: CustomButton(
                   txt: AppTexts.register,
                   onPressed: () {
+                    // Create the Address object
+                    Address address = Address(
+                      street: "asssssss",
+                      city: "Tanta",
+                      zip: "21212",
+                    );
 
-                    BlocProvider.of<GreateAccountCubit>(context).Greateacoount(context);
-
+                    context.read<DoctoraccountCubit>().GreateacoountDoctor(
+                      context,
+                      specialization: selectedLocation?.id,
+                      location: selectedSpecialization?.id,
+                      addresss: address,
+                    );
                   },
+
+
+
                 ),
-              ],
-            ),
+              )
+
+            ],
           ),
         );
       },
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-// class  DoctorWidget extends StatefulWidget {
-//   const  DoctorWidget({super.key});
-//
-//   @override
-//   State<DoctorWidget> createState() => _DoctorWidgetState();
-// }
-//
-// class _DoctorWidgetState extends State<DoctorWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     //
-//     // String? selectedTimeFrom;
-//     // String? selectedTimeTo;
-//     final TextEditingController name = TextEditingController();
-//     final TextEditingController email = TextEditingController();
-//     final TextEditingController pass = TextEditingController();
-//     final TextEditingController cpass = TextEditingController();
-//
-//     // List<String> times = ['08:00', '09:00', '10:00', '11:00', '12:00'];
-//
-//     return Padding(
-//       padding: const EdgeInsets.all(17),
-//       child: Column(
-//         children: [
-//
-//
-//           CustomRowField(txt: AppTexts.name,) ,
-//
-//
-//           SizedBox(height: MediaQuery.sizeOf(context).height*0.025,),
-//
-//           CustomRowField(txt: AppTexts.email,controller: ,),
-//
-//           SizedBox(height: MediaQuery.sizeOf(context).height*0.025,),
-//
-//           CustomRowField(txt: AppTexts.pass,),
-//
-//           SizedBox(height: MediaQuery.sizeOf(context).height*0.025,),
-//
-//           CustomRowField(txt: AppTexts.repass,),
-//
-//
-//           SizedBox(height: MediaQuery.sizeOf(context).height*0.025,),
-//
-//
-//
-//           // Row(
-//           //   textDirection: TextDirection.rtl,
-//           //   children: [
-//           //
-//           //     SizedBox(width: 5.w),
-//           //
-//           //
-//           //     Text("المعاد من",
-//           //
-//           //       style: GoogleFonts.almarai(
-//           //         color: AppColors.white,
-//           //         fontSize: 15.sp,
-//           //         fontWeight: FontWeight.w700,
-//           //       ),
-//           //
-//           //
-//           //     ),
-//           //
-//           //
-//           //
-//           //     SizedBox(width: 5.w),
-//           //
-//           //
-//           //
-//           //     SizedBox(
-//           //       height: 45.h,
-//           //       width: 110.w,
-//           //       child: DropdownButtonFormField<String>(
-//           //         value: selectedTimeFrom,style: TextStyle(fontSize: 9,color: Colors.black,fontWeight: FontWeight.bold),
-//           //         items: times.map((String time) {
-//           //           return DropdownMenuItem<String>(
-//           //             value: time,
-//           //             child: Text(time),
-//           //           );
-//           //         }).toList(),
-//           //         onChanged: (value) {
-//           //           setState(() {
-//           //             selectedTimeFrom = value;
-//           //           });
-//           //         },
-//           //         decoration: InputDecoration(
-//           //           border: OutlineInputBorder(
-//           //             borderSide: BorderSide.none,
-//           //           ),
-//           //           filled: true,
-//           //           fillColor: Colors.white,
-//           //         ),
-//           //       ),
-//           //     ),
-//           //
-//           //
-//           //     SizedBox(width: 10.w),
-//           //
-//           //     Text("إلى",
-//           //
-//           //       style: GoogleFonts.almarai(
-//           //         color: AppColors.white,
-//           //         fontSize: 15.sp,
-//           //         fontWeight: FontWeight.w700,
-//           //       ),
-//           //
-//           //
-//           //     ),
-//           //
-//           //     SizedBox(width: 10.w),
-//           //
-//           //
-//           //     // SizedBox(
-//           //     //   height: 45.h,
-//           //     //   width:110.w ,
-//           //     //   child: DropdownButtonFormField<String>(
-//           //     //     value: selectedTimeTo,style: TextStyle(fontSize: 9,color: Colors.black),
-//           //     //     items: times.map((String time) {
-//           //     //       return DropdownMenuItem<String>(
-//           //     //         value: time,
-//           //     //         child: Text(time),
-//           //     //       );
-//           //     //     }).toList(),
-//           //     //     onChanged: (value) {
-//           //     //       setState(() {
-//           //     //         selectedTimeTo = value;
-//           //     //       });
-//           //     //     },
-//           //     //     decoration: InputDecoration(
-//           //     //       border: OutlineInputBorder(borderSide: BorderSide.none,),
-//           //     //       filled: true,
-//           //     //       fillColor: Colors.white,
-//           //     //     ),
-//           //     //   ),
-//           //     // ),
-//           //
-//           //     SizedBox(width: 5.w),
-//           //
-//           //   ],
-//           // ),
-//
-//
-//           SizedBox(height: 5.h),
-//
-//
-//            //  Row(
-//            //    mainAxisAlignment:  MainAxisAlignment.center,
-//            // children: [
-//            //
-//            //
-//            //   CustomRowField_time(txt: AppTexts.cv,),
-//            //
-//            //   CustomRowField_time(txt: AppTexts.price,),
-//            //
-//            //
-//            //
-//            //  ],
-//            // ),
-//
-//
-//
-//
-//           SizedBox(height: 20),
-//
-//
-//
-//           CustomButton(
-//             txt: AppTexts.register,
-//             onPressed: () {
-//
-//               Navigator.push(context, MaterialPageRoute(builder: (context) => BookDoctor(),));
-//
-//             },
-//           ),
-//
-//
-//
-//
-//
-//
-//         ],
-//       ),
-//     );
-//   }
-// }

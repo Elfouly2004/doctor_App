@@ -8,6 +8,7 @@ import 'features/Login/data/repo/login_repo_implementation.dart';
 import 'features/Login/presentation/controller/login_cubit.dart';
 import 'features/Splash_screen/splash_screen.dart';
 import 'features/new-account/data/repo/Greate_account_impelemntation.dart';
+import 'features/new-account/presentation/controller/doctoraccount_cubit.dart';
 import 'features/new-account/presentation/controller/greateaccount_cubit.dart';
 
 void main() {
@@ -28,7 +29,12 @@ class MyApp extends StatelessWidget {
         return  MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => GreateAccountCubit(GreateAccountImplementation(),)
-            ),         BlocProvider(create: (context) => LoginCubit(LoginRepoImplementation(),)
+            ),
+            BlocProvider(create: (context) => LoginCubit(LoginRepoImplementation(),)) ,
+
+        BlocProvider(      create: (context) => DoctoraccountCubit(
+          GreateAccountImplementation(),
+        ),
             ),
 
           ],
