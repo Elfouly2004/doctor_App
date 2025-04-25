@@ -15,10 +15,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // تعيين المتحكمات للنصوص
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomBackground(
@@ -35,16 +31,14 @@ class LoginScreen extends StatelessWidget {
                   ),
                 );
               } else if (state is LoginSuccessState) {
-                Navigator.pop(context); // إزالة المؤشر الدوار
+                Navigator.pop(context); // remove loader
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Login Successful")),
                 );
-                // مسح النصوص بعد تسجيل الدخول
-                emailController.clear();
-                passwordController.clear();
                 Navigator.pushNamed(context, AppRoutes.BookDoctor);
+
               } else if (state is LoginFailureState) {
-                Navigator.pop(context); // إزالة المؤشر الدوار
+                Navigator.pop(context); // remove loader
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.errorMessage)),
                 );
@@ -65,14 +59,16 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
-                  CustomRowField(txt: AppTexts.email, controller: emailController),
+                  CustomRowField(txt: AppTexts.email, controller: cubit.Email),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
-                  CustomRowField(txt: AppTexts.pass, controller: passwordController),
+                  CustomRowField(txt: AppTexts.pass, controller: cubit.password),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
                   CustomButton(
                     txt: AppTexts.login_button,
                     onPressed: () {
                       cubit.login();
+                      cubit.Email.clear();
+                      cubit.password.clear();
                     },
                   ),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),

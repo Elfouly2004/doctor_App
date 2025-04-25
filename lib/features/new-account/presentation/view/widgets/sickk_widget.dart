@@ -9,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/model/new_account_model.dart';
 import '../../controller/greateaccount_cubit.dart';
 import '../../controller/greateaccount_state.dart';
-class DoctorWidget extends StatelessWidget {
-  const DoctorWidget({super.key});
+class SickWidget extends StatelessWidget {
+  const SickWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

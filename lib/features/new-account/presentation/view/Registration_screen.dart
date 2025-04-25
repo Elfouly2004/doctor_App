@@ -74,13 +74,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> with SingleTick
                     controller: _tabController,
                     children: [
 
-                      SickWidget(),
+                      DocWidget(),
 
 
 
                       BlocProvider(
                     create: (context) => GreateAccountCubit(GreateAccountImplementation()),
-                     child: DoctorWidget(),) ,
+                     child: SickWidget(),) ,
 
 
 

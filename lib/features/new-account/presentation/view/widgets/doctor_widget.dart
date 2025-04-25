@@ -5,7 +5,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_texts.dart';
 import '../../../../Home/presentation/view/book_doctor.dart';
@@ -18,14 +17,14 @@ import '../../../data/repo/Greate_account_impelemntation.dart';
 import '../../controller/doctoraccount_cubit.dart';
 import '../../controller/greateaccount_cubit.dart';
 
-class SickWidget extends StatefulWidget {
-  const SickWidget({super.key});
+class DocWidget extends StatefulWidget {
+  const DocWidget({super.key});
 
   @override
-  State<SickWidget> createState() => _SickWidgetState();
+  State<DocWidget> createState() => _DocWidgetState();
 }
 
-class _SickWidgetState extends State<SickWidget> {
+class _DocWidgetState extends State<DocWidget> {
   List<LocationModel> locations = [];
   LocationModel? selectedLocation;
   List<SpecializationModel> specialization = [];
