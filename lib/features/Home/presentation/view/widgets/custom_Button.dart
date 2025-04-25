@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButtonBook extends StatelessWidget {
-  const CustomButtonBook({super.key});
-
+  const CustomButtonBook({super.key, this.onTap});
+ final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-
-      },
+      onTap: onTap,
       child: Container(
         height: 60.h,
         width: 120.w,

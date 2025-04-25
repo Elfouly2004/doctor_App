@@ -11,6 +11,7 @@ import 'package:doctor/core/Routes/app_routes.dart';
 
 import '../../../new-account/data/model/location_model.dart';
 import '../../../new-account/data/model/spclazition_model.dart';
+import '../../../search/search_page.dart';
 class BookDoctor extends StatefulWidget {
   const BookDoctor({super.key});
 
@@ -217,7 +218,28 @@ class _BookDoctorState extends State<BookDoctor> {
 
               SizedBox(height: 20.h),
 
-              CustomButtonBook()
+              CustomButtonBook(
+                onTap: () {
+
+                  if(  selectedSpecialization!.id != null && selectedLocation!.id != null){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DoctorsPage(
+                          specializationId:"${selectedSpecialization!.id}",
+                          locationId:"${selectedLocation!.id}",
+                        ),
+                      ),
+                    );
+                  }
+
+
+                  print( selectedSpecialization!.id );
+                  print( selectedLocation!.id );
+
+
+                },
+              )
             ],
           ),
         ),
