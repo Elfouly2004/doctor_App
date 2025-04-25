@@ -217,17 +217,17 @@ class _DocWidgetState extends State<DocWidget> {
                   Expanded(
                     child: TextField(
                       controller: streetController,
-                      style: TextStyle(color: Colors.black, fontSize: 14), // تصغير حجم الخط داخل الـ TextField
+                      style: TextStyle(color: Colors.black, fontSize: 14),
                       decoration: InputDecoration(
-                        hintText: "أدخل الشارع", // النص التلميحي
-                        hintStyle: TextStyle(color: Colors.grey), // لون النص التلميحي
+                        hintText: "أدخل الشارع",
+                        hintStyle: TextStyle(color: Colors.grey),
                         filled: true,
-                        fillColor: Colors.white, // تغيير الخلفية إلى اللون الأبيض
+                        fillColor: Colors.white,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15), // تحديد الـ border radius
-                          borderSide: BorderSide.none, // إزالة الحدود الظاهرة
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none,
                         ),
-                        contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0), // تصغير حجم الـ TextField
+                        contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                       ),
                     ),
                   ),
@@ -235,17 +235,17 @@ class _DocWidgetState extends State<DocWidget> {
                   Expanded(
                     child: TextField(
                       controller: cityController,
-                      style: TextStyle(color: Colors.black, fontSize: 14), // تصغير حجم الخط داخل الـ TextField
+                      style: TextStyle(color: Colors.black, fontSize: 14),
                       decoration: InputDecoration(
-                        hintText: "أدخل المدينة", // النص التلميحي
-                        hintStyle: TextStyle(color: Colors.grey), // لون النص التلميحي
+                        hintText: "أدخل المدينة",
+                        hintStyle: TextStyle(color: Colors.grey),
                         filled: true,
-                        fillColor: Colors.white, // تغيير الخلفية إلى اللون الأبيض
+                        fillColor: Colors.white,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15), // تحديد الـ border radius
-                          borderSide: BorderSide.none, // إزالة الحدود الظاهرة
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none,
                         ),
-                        contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0), // تصغير حجم الـ TextField
+                        contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                       ),
                     ),
                   ),
@@ -257,15 +257,15 @@ class _DocWidgetState extends State<DocWidget> {
                 controller: zipController,
                 style: TextStyle(color: Colors.black, fontSize: 14), // تصغير حجم الخط داخل الـ TextField
                 decoration: InputDecoration(
-                  hintText: "أدخل الرمز البريدي", // النص التلميحي
-                  hintStyle: TextStyle(color: Colors.grey), // لون النص التلميحي
+                  hintText: "أدخل الرمز البريدي",
+                  hintStyle: TextStyle(color: Colors.grey),
                   filled: true,
-                  fillColor: Colors.white, // تغيير الخلفية إلى اللون الأبيض
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15), // تحديد الـ border radius
-                    borderSide: BorderSide.none, // إزالة الحدود الظاهرة
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0), // تصغير حجم الـ TextField
+                  contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                 ),
               ),
 
