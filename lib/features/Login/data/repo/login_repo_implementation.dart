@@ -27,8 +27,15 @@ class LoginRepoImplementation implements LoginRepo {
       print("Response: $responseBody");
 
       if (response.statusCode == 200 && responseBody["success"] == true) {
+        final isVerified = responseBody["token"]["isVerified"];
+
+        if (isVerified == false) {
+          return left(ApiFailure(message: "Your account is not verified yet"));
+        }
+
         return right(UserModel(email: email, password: pass));
-      } else {
+      }
+      else {
         return left(ApiFailure(message: responseBody["message"] ?? "Login failed"));
       }
     } catch (e) {

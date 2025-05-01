@@ -21,16 +21,16 @@ class LoginCubit extends Cubit<LoginStates> {
     var result = await loginRepo.login(
       email: Email.text.trim(),
       pass: password.text.trim() );
-    result.fold((left )  {
+    result.fold((left) {
       if (left.message == "Your account is not verified yet") {
         emit(LoginNotApprovedState());
       } else {
         emit(LoginFailureState(errorMessage: left.message));
       }
-    } , (right)async {
-
+    }, (right) async {
       emit(LoginSuccessState(userModel: right));
     });
+
 
   }
 
