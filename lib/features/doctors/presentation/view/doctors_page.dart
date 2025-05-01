@@ -58,11 +58,15 @@ class DoctorsPage extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          context.read<DoctorCubit>().approveDoctor(doctor.id!);
+                                        },
                                         icon: Icon(Icons.check_circle, color: Colors.greenAccent),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          context.read<DoctorCubit>().rejectDoctor(doctor.id!);
+                                        },
                                         icon: Icon(Icons.cancel, color: Colors.red),
                                       ),
                                     ],
