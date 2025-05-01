@@ -18,11 +18,10 @@ class DoctorCubit extends Cubit<DoctorState> {
     );
   }
 
-
   Future<void> approveDoctor(String docId) async {
     try {
-      await repo.approveDoctor(docId);  // الموافقة على الطبيب
-      getDoctors();  // استرجاع الأطباء بعد الموافقة
+      await repo.approveDoctor(docId);
+      getDoctors();
     } catch (e) {
       emit(DoctorError(e.toString()));
     }

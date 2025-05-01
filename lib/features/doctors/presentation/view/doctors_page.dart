@@ -6,7 +6,6 @@ import '../../data/repo/doctors-repo-implementation.dart';
 import '../controller/doctors_cubit.dart';
 import '../controller/doctors_state.dart';
 
-
 class DoctorsPage extends StatelessWidget {
   const DoctorsPage({super.key});
 

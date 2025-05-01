@@ -11,8 +11,7 @@ class LoginRepoImplementation implements LoginRepo {
   Future<Either<Failure, UserModel>> login({
     required String email,
     required String pass,
-  }) async {
-    try {
+  }) async {try {
       final response = await http.post(
         Uri.parse("http://192.168.1.8:3000/auth/login"),
         headers: {

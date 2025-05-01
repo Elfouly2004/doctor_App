@@ -22,28 +22,34 @@ class LoginScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(17),
           child: BlocConsumer<LoginCubit, LoginStates>(
-            listener: (context, state) {
-              if (state is LoginLoadingState) {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) => Center(
-                    child: CircularProgressIndicator(color: AppColors.button),
-                  ),
-                );
-              } else if (state is LoginSuccessState) {
-                Navigator.pop(context); // remove loader
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Login Successful")),
-                );
-                Navigator.pushNamed(context, AppRoutes.BookDoctor);
-              } else if (state is LoginFailureState) {
-                Navigator.pop(context); // remove loader
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.errorMessage)),
-                );
-              }
-            },
+              listener: (context, state) {
+                if (state is LoginLoadingState) {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) => Center(
+                      child: CircularProgressIndicator(color: AppColors.button),
+                    ),
+                  );
+                } else if (state is LoginSuccessState) {
+                  Navigator.pop(context); // remove loader
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Login Successful")),
+                  );
+                  Navigator.pushNamed(context, AppRoutes.BookDoctor);
+                } else if (state is LoginFailureState) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(state.errorMessage)),
+                  );
+                } else if (state is LoginNotApprovedState) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Your account is not verified yet")),
+                  );
+                }
+              },
+
             builder: (context, state) {
               final cubit = context.read<LoginCubit>();
 
@@ -67,8 +73,6 @@ class LoginScreen extends StatelessWidget {
                     txt: AppTexts.login_button,
                     onPressed: () async {
                       if (cubit.Email.text == "tamineproject1@gmail.com" && cubit.password.text == "12345678T#") {
-                        await cubit.approveDoctor("doctorId");
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => DoctorsPage()),

@@ -1,6 +1,6 @@
 class Doctor_model {
   final String id;
-  final UserModel? user;
+  final UserrModel? user;
   final bool isVerified;
 
   Doctor_model({
@@ -12,7 +12,7 @@ class Doctor_model {
   factory Doctor_model.fromJson(Map<String, dynamic> json) {
     return Doctor_model(
       id: json['_id'],
-      user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
+      user: json['user'] != null ? UserrModel.fromJson(json['user']) : null,
       isVerified: json['isVerified'] ?? false,
     );
   }
@@ -26,16 +26,13 @@ class Doctor_model {
   }
 }
 
-
-
-
-class UserModel {
+class UserrModel {
   final String? userName;
 
-  UserModel({this.userName});
+  UserrModel({this.userName});
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
+  factory UserrModel.fromJson(Map<String, dynamic> json) {
+    return UserrModel(
       userName: json['userName'],
     );
   }
