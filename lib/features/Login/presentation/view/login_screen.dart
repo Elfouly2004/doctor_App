@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/background_image/custom_background.dart';
+import '../../../doctors/presentation/view/doctors_page.dart';
 import '../controller/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -36,7 +37,6 @@ class LoginScreen extends StatelessWidget {
                   SnackBar(content: Text("Login Successful")),
                 );
                 Navigator.pushNamed(context, AppRoutes.BookDoctor);
-
               } else if (state is LoginFailureState) {
                 Navigator.pop(context); // remove loader
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -65,10 +65,19 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
                   CustomButton(
                     txt: AppTexts.login_button,
-                    onPressed: () {
-                      cubit.login();
-                      cubit.Email.clear();
-                      cubit.password.clear();
+                    onPressed: () async {
+                      if (cubit.Email.text == "tamineproject1@gmail.com" && cubit.password.text == "12345678T#") {
+                        await cubit.approveDoctor("doctorId");
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DoctorsPage()),
+                        );
+                      } else {
+                        cubit.login();
+                        cubit.Email.clear();
+                        cubit.password.clear();
+                      }
                     },
                   ),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),

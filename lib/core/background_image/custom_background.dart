@@ -44,3 +44,23 @@ final Widget? child;
     );
   }
 }
+
+class CustomBackground3 extends StatelessWidget {
+  const CustomBackground3({super.key, this.child});
+final Widget? child;
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+
+          image: DecorationImage(
+            image: AssetImage(AppImages.back_ground3),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child:child
+    );
+  }
+}

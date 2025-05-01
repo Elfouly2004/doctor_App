@@ -27,12 +27,20 @@ class UserModelToRegister {
 
 
 
+
+
+
+
+
+
+
+
 class DoctorLoginModel {
   final String userName;
   final String email;
   final String password;
   final String role;
-  final String location;
+  final String locations;  // تعديل من 'location' إلى 'locations'
   final Address addresses;
   final int consultationFees;
   final String specialization;
@@ -41,8 +49,8 @@ class DoctorLoginModel {
     required this.userName,
     required this.email,
     required this.password,
-    this.role="doctor",
-    required this.location,
+    this.role = "doctor",
+    required this.locations,  // تعديل هنا
     required this.addresses,
     required this.consultationFees,
     required this.specialization,
@@ -54,7 +62,7 @@ class DoctorLoginModel {
       'email': email,
       'password': password,
       'role': role,
-      'location': location,
+      'locations': locations,  // تعديل من 'location' إلى 'locations'
       'addresses': addresses.toMap(),
       'consultationFees': consultationFees,
       'specialization': specialization,
@@ -67,7 +75,7 @@ class DoctorLoginModel {
       email: map['email'],
       password: map['password'],
       role: map['role'],
-      location: map['location'],
+      locations: map['locations'],  // تعديل هنا
       addresses: Address.fromMap(map['addresses']),
       consultationFees: map['consultationFees'],
       specialization: map['specialization'],
@@ -79,6 +87,7 @@ class DoctorLoginModel {
   factory DoctorLoginModel.fromJson(String source) =>
       DoctorLoginModel.fromMap(json.decode(source));
 }
+
 
 class Address {
   final String street;

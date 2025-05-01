@@ -1,17 +1,19 @@
-import 'package:doctor/core/utils/app_texts.dart';
-import 'package:doctor/features/Home/presentation/view/widgets/choose_sick.dart';
 import 'package:doctor/features/Home/presentation/view/widgets/custom_Button.dart';
 import 'package:doctor/features/Home/presentation/view/widgets/texts_field.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/background_image/custom_background.dart';
 import 'package:doctor/core/Routes/app_routes.dart';
-
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_texts.dart';
 import '../../../new-account/data/model/location_model.dart';
 import '../../../new-account/data/model/spclazition_model.dart';
 import '../../../search/search_page.dart';
+import '../../../search/searchname.dart';
+
 class BookDoctor extends StatefulWidget {
   const BookDoctor({super.key});
 
@@ -22,7 +24,7 @@ class BookDoctor extends StatefulWidget {
 class _BookDoctorState extends State<BookDoctor> {
   String? selectedSpecialty;
   bool isExpanded = false;
-
+TextEditingController name=TextEditingController();
   List<String> specialties = [
     "امراض جهاز هضمي",
     "امراض غدد صماء",
@@ -75,7 +77,7 @@ class _BookDoctorState extends State<BookDoctor> {
             )),
         backgroundColor: Colors.white,
       ),
-      body: CustomBackground(
+      body: CustomBackground3(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,16 +88,35 @@ class _BookDoctorState extends State<BookDoctor> {
                 "احجز دكتور",
                 style: TextStyle(fontSize: 25, color: Colors.white),
               ),
+              
+              
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>  DoctorsPage2(),));
+                },
+                child: Container(
+                  height: 50,
+                  width: 360,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("البحث بالاسم ",style:  GoogleFonts.almarai(
+                        color: Colors.grey.withOpacity(0.7),
+                        fontSize: 16,
+                      ),),
+                    ],
+                  ),
+                ),
+              ),
 
-              // SizedBox(height: 10.h),
-              //
-              //
-              //
-              // locationfield(hint: AppTexts.location),
-              //
-              // locationfield(hint: AppTexts.Governorate),
 
-              SizedBox(height: 15.h),
+
+              SizedBox(height: 5.h),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
                 child: Container(
@@ -221,24 +242,26 @@ class _BookDoctorState extends State<BookDoctor> {
               CustomButtonBook(
                 onTap: () {
 
-                  if(  selectedSpecialization!.id != null && selectedLocation!.id != null){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DoctorsPage(
-                          specializationId:"${selectedSpecialization!.id}",
-                          locationId:"${selectedLocation!.id}",
+
+                  if(name.text!=null){
+
+
+                    if(  selectedSpecialization!.id != null && selectedLocation!.id != null){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DoctorsPage(
+                            specializationId:"${selectedSpecialization!.id}",
+                            locationId:"${selectedLocation!.id}",
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   }
 
 
-                  print( selectedSpecialization!.id );
-                  print( selectedLocation!.id );
 
-
-                },
+                  },
               )
             ],
           ),
@@ -247,3 +270,6 @@ class _BookDoctorState extends State<BookDoctor> {
     );
   }
 }
+
+
+

@@ -11,3 +11,5 @@ class LoginFailureState extends LoginStates{
   final String errorMessage;LoginFailureState({required this.errorMessage});}
 class LoginGoogleFailureState extends LoginStates
 {final String errorMessage;LoginGoogleFailureState({required this.errorMessage});}
+
+class LoginNotApprovedState extends LoginStates {} // New state

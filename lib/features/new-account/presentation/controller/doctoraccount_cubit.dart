@@ -13,10 +13,11 @@ class DoctoraccountCubit extends Cubit<DoctoraccountState> {
   final TextEditingController Email = TextEditingController();
   final TextEditingController userName = TextEditingController();
   final TextEditingController password = TextEditingController();
-  final TextEditingController cpassword = TextEditingController();
   final TextEditingController pricecon = TextEditingController();
 
-  final GreateAccountRepo greateAccountRepo;Future<void> GreateacoountDoctor(BuildContext context,
+  final GreateAccountRepo greateAccountRepo;
+
+  Future<void> GreateacoountDoctor(BuildContext context,
       {required addresss, required location, required specialization}) async {
     emit(GreateAccountDocLoadingState());
     try {
@@ -39,7 +40,7 @@ class DoctoraccountCubit extends Cubit<DoctoraccountState> {
               password: password.text.trim(),
               consultationFees: price,
               addresses: addresss,
-              location: location,
+              locations: location,
               specialization: specialization,
               role: "doctor"
           ),
@@ -48,7 +49,7 @@ class DoctoraccountCubit extends Cubit<DoctoraccountState> {
         result.fold(
               (left) {
             emit(GreateAccountDocFailureState(errorMessage: left.message));
-            print("Error: ${left.message}");  
+            print("Error: ${left.message}");
           },
               (right) async {
             emit(GreateAccountDocSuccessState(doctorLoginModel: right));

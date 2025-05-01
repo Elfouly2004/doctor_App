@@ -1,10 +1,10 @@
+import 'package:doctor/features/Login/presentation/view/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor/features/new-account/presentation/view/widgets/txtfield_time.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_texts.dart';
 import '../../../../Home/presentation/view/book_doctor.dart';
@@ -13,9 +13,7 @@ import '../../../../Login/presentation/view/widgets/custom_row_field.dart';
 import '../../../data/model/location_model.dart';
 import '../../../data/model/new_account_model.dart';
 import '../../../data/model/spclazition_model.dart';
-import '../../../data/repo/Greate_account_impelemntation.dart';
 import '../../controller/doctoraccount_cubit.dart';
-import '../../controller/greateaccount_cubit.dart';
 
 class DocWidget extends StatefulWidget {
   const DocWidget({super.key});
@@ -75,7 +73,7 @@ class _DocWidgetState extends State<DocWidget> {
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => BookDoctor()),
+            MaterialPageRoute(builder: (_) => LoginScreen()),
           );
         }
       },
@@ -291,6 +289,13 @@ class _DocWidgetState extends State<DocWidget> {
                       location: selectedSpecialization?.id,
                       addresss: address,
                     );
+
+                    print("Selected Location: ${selectedLocation?.name}");
+                    print("Selected Specialization: ${selectedSpecialization?.name}");
+                    print("Street: ${streetController.text}");
+                    print("City: ${cityController.text}");
+                    print("Zip: ${zipController.text}");
+
                   },
 
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../../core/background_image/custom_background.dart';
 import '../Home/data/model/search_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 
 Future<DoctorResponse> getDoctors({
   required String specialization,
@@ -96,7 +96,7 @@ class _DoctorsPageState extends State<DoctorsPage> {
           itemCount: doctors.length,
           itemBuilder: (context, index) {
             final doctor = doctors[index];
-        
+
             return Card(
               color: Colors.white.withOpacity(0.8),
               margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 6),
@@ -123,3 +123,5 @@ class _DoctorsPageState extends State<DoctorsPage> {
   }
 
 }
+
+
