@@ -45,7 +45,7 @@ class DoctorsRepoImplementation implements DoctorsRepo {
 
   @override
   Future<void> rejectDoctor(String docId) async {
-    final url = Uri.parse('http://192.168.1.39:3000/admin/rejectDoctor/$docId');
+    final url = Uri.parse('http://192.168.1.8:3000/admin/rejectDoctor/$docId');
 
     try {
       final response = await http.delete(url);
