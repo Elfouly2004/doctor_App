@@ -12,7 +12,7 @@ class GreateAccountImplementation implements GreateAccountRepo {
     required UserModelToRegister userModelToRegister,
   }) async {
     try {
-      final uri = Uri.parse("http://192.168.1.8:3000/auth/register");
+      final uri = Uri.parse("http://192.168.1.39:3000/auth/register");
 
       final response = await http.post(
         uri,
@@ -54,7 +54,7 @@ class GreateAccountImplementation implements GreateAccountRepo {
   Future<Either<Failure, DoctorLoginModel>> Greate_account_Doctor({
     required DoctorLoginModel doctorLoginModel  }) async {
     try {
-      final uri = Uri.parse("http://192.168.1.8:3000/doctor/register_doctor");
+      final uri = Uri.parse("http://192.168.1.39:3000/doctor/register_doctor");
 
       final response = await http.post(
         uri,

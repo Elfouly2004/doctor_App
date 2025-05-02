@@ -18,7 +18,7 @@ class SpecializationModel {
 
 
 Future<List<SpecializationModel>> fetchSpecializations() async {
-  final response = await http.get(Uri.parse('http://192.168.1.8:3000/specialization/'));
+  final response = await http.get(Uri.parse('http://192.168.1.39:3000/specialization/'));
 
   if (response.statusCode == 200) {
     List<dynamic> data = json.decode(response.body)['data'];

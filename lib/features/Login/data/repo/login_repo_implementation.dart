@@ -13,7 +13,7 @@ class LoginRepoImplementation implements LoginRepo {
     required String pass,
   }) async {try {
       final response = await http.post(
-        Uri.parse("http://192.168.1.8:3000/auth/login"),
+        Uri.parse("http://192.168.1.39:3000/auth/login"),
         headers: {
           "Content-Type": "application/json",
         },

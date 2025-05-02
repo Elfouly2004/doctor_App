@@ -33,7 +33,7 @@ class DoctorResponse2 {
 
 
 Future<DoctorResponse2> getDoctorsByName({required String name}) async {
-  final Uri url = Uri.parse('http://192.168.1.8:3000/doctor/search?name=$name');
+  final Uri url = Uri.parse('http://192.168.1.39:3000/doctor/search?name=$name');
 
   final response = await http.get(url);
 

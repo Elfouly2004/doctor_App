@@ -10,7 +10,7 @@ Future<DoctorResponse> getDoctors({
   required String location,
 }) async {
   final Uri url = Uri.parse(
-    'http://192.168.1.8:3000/doctor/filter?specialization=$specialization&location=$location',
+    'http://192.168.1.39:3000/doctor/filter?specialization=$specialization&location=$location',
   );
 
   final response = await http.get(url);

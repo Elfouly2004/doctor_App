@@ -18,7 +18,7 @@ class LocationModel {
 
 
 Future<List<LocationModel>> fetchLocations() async {
-  final response = await http.get(Uri.parse('http://192.168.1.8:3000/location/'));
+  final response = await http.get(Uri.parse('http://192.168.1.39:3000/location/'));
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
