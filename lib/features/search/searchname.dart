@@ -1,3 +1,4 @@
+import 'package:doctor/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../../core/background_image/custom_background.dart';
 import 'avilaible_slots_screen.dart';
@@ -64,10 +65,11 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
             ),
             const SizedBox(height: 5),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 40,),
               child: DropdownButton<String>(
+
                 value: selectedFilter,
-                dropdownColor: Colors.black87,
+                dropdownColor: AppColors.button,
                 style: const TextStyle(color: Colors.white),
                 iconEnabledColor: Colors.white,
                 items: <String>['None', 'By Fees', 'By Rate']
