@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import '../../core/background_image/custom_background.dart';
+import 'avilaible_slots_screen.dart';
 import 'custom-txt-field.dart';
 import 'model/doc_model.dart';
+
 class DoctorsPage2 extends StatefulWidget {
   const DoctorsPage2({Key? key}) : super(key: key);
 
   @override
   State<DoctorsPage2> createState() => _DoctorsPage2State();
 }
+
 class _DoctorsPage2State extends State<DoctorsPage2> {
   late Future<DoctorResponse2> futureDoctors;
   TextEditingController searchController = TextEditingController();
+  String selectedFilter = 'None';
 
   @override
   void initState() {
     super.initState();
     futureDoctors = getDoctorsByName(name: '');
   }
-
 
   void searchDoctorsByName() {
     setState(() {
@@ -32,54 +35,181 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
       backgroundColor: Colors.transparent,
       body: CustomBackground(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 150),
-
-
+            const SizedBox(height: 100),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                'Find Your Doctor',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomTextformfeild(
-                controller:searchController ,
+                controller: searchController,
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search, color: Colors.white),
                   onPressed: searchDoctorsByName,
-                ),  hintText: 'Enter doctor namem',
+                ),
+                hintText: 'Enter doctor name',
                 keyboardType: TextInputType.name,
               ),
             ),
+            const SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: DropdownButton<String>(
+                value: selectedFilter,
+                dropdownColor: Colors.black87,
+                style: const TextStyle(color: Colors.white),
+                iconEnabledColor: Colors.white,
+                items: <String>['None', 'By Fees', 'By Rate']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                      selectedFilter = newValue;
+                    });
+                  }
+                },
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder<DoctorResponse2>(
+                future: futureDoctors,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (!snapshot.hasData || snapshot.data!.data.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No doctors found.',
+                        style: TextStyle(color: Colors.white70, fontSize: 18),
+                      ),
+                    );
+                  }
 
+                  final doctors = snapshot.data!.data;
 
-            FutureBuilder<DoctorResponse2>(
-              future: futureDoctors,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }else if (!snapshot.hasData || snapshot.data!.data.isEmpty) {
-                  return const Center(child: Text('No doctors found.'));
-                }
+                  if (selectedFilter == 'By Fees') {
+                    doctors.sort((a, b) => b.consultationFees.compareTo(a.consultationFees));
+                  } else if (selectedFilter == 'By Rate') {
+                    doctors.sort((a, b) => b.rate.compareTo(a.rate));
+                  }
 
-                final doctors = snapshot.data!.data;
-
-                return Expanded(
-                  child: ListView.builder(
+                  return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     itemCount: doctors.length,
                     itemBuilder: (context, index) {
                       final doctor = doctors[index];
 
-                      return Card(
-                        color: Colors.white.withOpacity(0.8),
-                        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 6),
-                        child: ListTile(
-                          leading: const Icon(Icons.person),
-                          title: Text(doctor.userName),
-                          subtitle: Text('Doctor ID: ${doctor.id}'),
-                          trailing: const Icon(Icons.arrow_forward_ios),
+                      return Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.white24),
+                          ),
+                          child: Row(
+                            children: [
+                              const CircleAvatar(
+                                radius: 28,
+                                backgroundColor: Colors.white24,
+                                child: Icon(Icons.person, color: Colors.white, size: 28),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      doctor.userName,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Specialization: ${doctor.specialization}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Consultation Fees: ${doctor.consultationFees}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white70,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Rate: ${doctor.rate}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white70,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white24,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BookingSlotsPage(
+                                        locations: doctor.locations,
+                                        price: doctor.consultationFees ?? 0,
+                                        doctorId: doctor.id.toString(),
+                                        doctorName: doctor.userName,
+                                        doctorDescription: doctor.specialization,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Book",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),

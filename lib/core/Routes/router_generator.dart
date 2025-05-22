@@ -7,6 +7,7 @@ import '../../features/Login/presentation/view/login_screen.dart';
 import '../../features/Splash_screen/splash_screen.dart';
 import '../../features/new-account/presentation/view/Registration_screen.dart';
 import '../../features/profile/profle_screen.dart';
+import '../../features/profile/views/doctor_page.dart';
 
 class  RouterGenerator {
 
@@ -65,6 +66,11 @@ class  RouterGenerator {
      case AppRoutes.ProfleScreen:
      return MaterialPageRoute(builder: (context) {
        return ProfleScreen();
+     },);
+
+     case AppRoutes.profilepage:
+     return MaterialPageRoute(builder: (context) {
+       return DoctorPage();
      },);
 
 

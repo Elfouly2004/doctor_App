@@ -45,7 +45,7 @@ class _CustomRowField_timeState extends State<CustomRowField_time> {
 
           SizedBox(
             width: 115.w,
-            height: 30.h,
+            height: 50.h,
             child: TextFormField(
               controller: widget.controller,
               decoration: InputDecoration(

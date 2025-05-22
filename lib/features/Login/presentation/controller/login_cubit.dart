@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 
 import '../../data/model/usermodel.dart';
 import '../../data/repo/login_repo.dart';
@@ -28,6 +29,16 @@ class LoginCubit extends Cubit<LoginStates> {
         emit(LoginFailureState(errorMessage: left.message));
       }
     }, (right) async {
+
+      var box = Hive.box("setting");
+      // احفظ القيم
+      await box.put("id", right.id);
+      await box.put("Iddoctor", right.doctorid);
+      await box.put("token", right.token);
+      // اطبع للتأكد
+      print("ID :::::::::::: ${box.get("id")}");
+      print("Token :::::::::::: ${box.get("token")}");
+      print("Iddoctor :::::::::::: ${box.get("Iddoctor")}");
       emit(LoginSuccessState(userModel: right));
     });
 

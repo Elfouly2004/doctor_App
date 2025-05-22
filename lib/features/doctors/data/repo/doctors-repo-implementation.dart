@@ -5,11 +5,13 @@ import 'package:doctor/features/doctors/data/model/doctors-model.dart';
 import 'package:doctor/features/doctors/data/repo/doctors-repo.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../core/utils/app_texts.dart';
+
 class DoctorsRepoImplementation implements DoctorsRepo {
   @override
   Future<Either<Failure, List<Doctor_model>>> GetDoctors() async {
     try {
-      final response = await http.get(Uri.parse("http://192.168.1.39:3000/admin/"));
+      final response = await http.get(Uri.parse("${AppTexts.baseurl}/admin/"));
 
       if (response.statusCode == 200) {
         final List<dynamic> body = jsonDecode(response.body);
@@ -26,7 +28,7 @@ class DoctorsRepoImplementation implements DoctorsRepo {
 
   @override
   Future<void> approveDoctor(String docId) async {
-    final url = Uri.parse('http://192.168.1.39:3000/admin/approveDoctor/$docId');
+    final url = Uri.parse('${AppTexts.baseurl}/admin/approveDoctor/$docId');
 
     try {
       final response = await http.patch(url);
@@ -45,7 +47,7 @@ class DoctorsRepoImplementation implements DoctorsRepo {
 
   @override
   Future<void> rejectDoctor(String docId) async {
-    final url = Uri.parse('http://192.168.1.39:3000/admin/rejectDoctor/$docId');
+    final url = Uri.parse('${AppTexts.baseurl}/admin/rejectDoctor/$docId');
 
     try {
       final response = await http.delete(url);

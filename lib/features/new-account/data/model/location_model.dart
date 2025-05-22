@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../../../../core/utils/app_texts.dart';
+
+// نموذج بيانات الموقع
 class LocationModel {
   final String id;
   final String name;
@@ -15,16 +18,22 @@ class LocationModel {
   }
 }
 
-
-
+// دالة لجلب المواقع من السيرفر
 Future<List<LocationModel>> fetchLocations() async {
-  final response = await http.get(Uri.parse('http://192.168.1.39:3000/location/'));
+  final url = Uri.parse('${AppTexts.baseurl}/location/');
+  final response = await http.get(url);
 
   if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    final List list = data['data'];
-    return list.map((item) => LocationModel.fromJson(item)).toList();
+    final Map<String, dynamic> data = jsonDecode(response.body);
+
+    // تأكد من أن المفتاح 'data' موجود ويحتوي على قائمة
+    if (data.containsKey('data') && data['data'] is List) {
+      final List<dynamic> list = data['data'];
+      return list.map((item) => LocationModel.fromJson(item)).toList();
+    } else {
+      throw Exception('Unexpected response structure');
+    }
   } else {
-    throw Exception('Failed to load locations');
+    throw Exception('Failed to load locations: ${response.statusCode}');
   }
 }

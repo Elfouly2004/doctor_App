@@ -45,10 +45,16 @@ dependencies:
   file_picker: ^10.1.2
   dropdown_button2: ^2.3.9
   shared_preferences: ^2.5.3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  flutter_otp_text_field: ^1.5.1+1
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  dropdown_button2: ^2.3.9
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

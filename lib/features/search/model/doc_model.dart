@@ -1,16 +1,26 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../../../core/utils/app_texts.dart';
+
 class Doctor {
   final String id;
   final String userName;
+  final String specialization;
+  final String locations;
+  final int consultationFees;
+  final int rate;
 
-  Doctor({required this.id, required this.userName});
+  Doctor( {required this.id, required this.userName, required this. specialization, required this.locations, required this.consultationFees, required this.rate,});
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
     return Doctor(
       id: json['id'],
       userName: json['userName'],
+      specialization: json['specialization'],
+      locations: json['locations'],
+      consultationFees: json['consultationFees'],
+      rate: json['rate'],
     );
   }
 }
@@ -33,7 +43,7 @@ class DoctorResponse2 {
 
 
 Future<DoctorResponse2> getDoctorsByName({required String name}) async {
-  final Uri url = Uri.parse('http://192.168.1.39:3000/doctor/search?name=$name');
+  final Uri url = Uri.parse('${AppTexts.baseurl}/doctor/search?name=$name');
 
   final response = await http.get(url);
 

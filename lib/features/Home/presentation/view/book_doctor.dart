@@ -1,3 +1,4 @@
+import 'package:doctor/features/Home/presentation/view/search_area.dart';
 import 'package:doctor/features/Home/presentation/view/widgets/custom_Button.dart';
 import 'package:doctor/features/Home/presentation/view/widgets/texts_field.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -105,6 +106,34 @@ TextEditingController name=TextEditingController();
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text("البحث بالاسم ",style:  GoogleFonts.almarai(
+                        color: Colors.grey.withOpacity(0.7),
+                        fontSize: 16,
+                      ),),
+                    ],
+                  ),
+                ),
+              ),
+
+
+              SizedBox(height: 20.h),
+
+
+              InkWell(
+
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SearchArea(),));
+                },
+                child: Container(
+                  height: 50,
+                  width: 360,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("البحث بالمنطقه ",style:  GoogleFonts.almarai(
                         color: Colors.grey.withOpacity(0.7),
                         fontSize: 16,
                       ),),

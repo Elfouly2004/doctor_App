@@ -14,14 +14,21 @@ class DoctoraccountCubit extends Cubit<DoctoraccountState> {
   final TextEditingController userName = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController pricecon = TextEditingController();
+  final TextEditingController cityCon = TextEditingController();
+  final TextEditingController rateCon = TextEditingController();
+  final TextEditingController phoneCon = TextEditingController();
+  final TextEditingController descriptionCon = TextEditingController();
+  final TextEditingController areaCon = TextEditingController();
+  final TextEditingController nickNameCon = TextEditingController();
 
   final GreateAccountRepo greateAccountRepo;
 
   Future<void> GreateacoountDoctor(BuildContext context,
-      {required addresss, required location, required specialization}) async {
+      {required location, required specialization}) async {
     emit(GreateAccountDocLoadingState());
     try {
-      final bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      final bool emailValid = RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
           .hasMatch(Email.text.trim());
 
       if (!emailValid) {
@@ -30,19 +37,27 @@ class DoctoraccountCubit extends Cubit<DoctoraccountState> {
         emit(GreateAccountDocFailureState(errorMessage: "Name cannot be empty."));
       } else if (password.text.isEmpty) {
         emit(GreateAccountDocFailureState(errorMessage: "Password cannot be empty."));
+      } else if (pricecon.text.isEmpty) {
+        emit(GreateAccountDocFailureState(errorMessage: "Price cannot be empty."));
       } else {
         int price = int.parse(pricecon.text.trim());
+        int rate = int.tryParse(rateCon.text.trim()) ?? 5;
 
         var result = await greateAccountRepo.Greate_account_Doctor(
           doctorLoginModel: DoctorLoginModel(
-              userName: userName.text,
-              email: Email.text.trim(),
-              password: password.text.trim(),
-              consultationFees: price,
-              addresses: addresss,
-              locations: location,
-              specialization: specialization,
-              role: "doctor"
+            userName: userName.text.trim(),
+            email: Email.text.trim(),
+            password: password.text.trim(),
+            consultationFees: price,
+            locations: location,
+            specialization: specialization,
+            role: "doctor",
+            city: cityCon.text.trim(),
+            rate: rate,
+            phone: phoneCon.text.trim(),
+            description: descriptionCon.text.trim(),
+            area: areaCon.text.trim(),
+            nickName:"",
           ),
         );
 
@@ -61,6 +76,7 @@ class DoctoraccountCubit extends Cubit<DoctoraccountState> {
       emit(GreateAccountDocFailureState(errorMessage: "An unexpected error occurred."));
     }
   }
+
 
 
 }

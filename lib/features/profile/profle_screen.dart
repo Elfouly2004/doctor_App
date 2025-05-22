@@ -1,8 +1,11 @@
 import 'package:doctor/core/utils/app_colors.dart';
+import 'package:doctor/features/profile/views/attends_doctor_page.dart';
+import 'package:doctor/features/profile/views/update_times_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 
 import '../../core/background_image/custom_background.dart';
 import '../../core/utils/app_texts.dart';
@@ -36,9 +39,9 @@ class ProfleScreen extends StatelessWidget {
                     children: [
 
 
-
-
                       SizedBox(height: MediaQuery.sizeOf(context).height*0.05,),
+
+
 
                       Container(
                         height: 150.h,
@@ -103,6 +106,7 @@ class ProfleScreen extends StatelessWidget {
                       CustomButton2(
                         txt:AppTexts.update,
                         onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SetScheduleInputPage()));
                         },),
 
                       SizedBox(height: MediaQuery.sizeOf(context).height*0.02,),
@@ -110,6 +114,9 @@ class ProfleScreen extends StatelessWidget {
                       CustomButton2(
                         txt:AppTexts.updatedeatils,
                         onPressed: () {
+                          var box = Hive.box("setting");
+                          String id = box.get("Iddoctor");
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => BookingPage(doctorId:id ,)));
                         },),
 
 

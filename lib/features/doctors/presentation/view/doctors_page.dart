@@ -22,7 +22,9 @@ class DoctorsPage extends StatelessWidget {
               } else if (state is DoctorError) {
                 return Center(child: Text("Error: ${state.message}"));
               } else if (state is DoctorLoaded) {
-                final doctors = state.doctors;
+                final doctors = state.doctors.where((doctor) => doctor.isVerified == false).toList();
+
+                // final doctors = state.doctors;
                 if (doctors.isEmpty) {
                   return const Center(child: Text("No doctors found"));
                 }
@@ -46,10 +48,26 @@ class DoctorsPage extends StatelessWidget {
                                   backgroundColor: AppColors.button.withOpacity(0.8),
                                   child: Text(doctor.user?.userName![0] ?? '?'),
                                 ),
-                                title: Text(
-                                  doctor.user?.userName ?? 'No name',
-                                  style: TextStyle(color: Colors.white),
-                                  overflow: TextOverflow.ellipsis,
+                                title: Column(
+                                  children: [
+                                    Text(
+                                      doctor.user?.userName ?? 'No name',
+                                      style: TextStyle(color: Colors.white),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),  Text(
+                                      doctor.description ?? 'No name',
+                                      style: TextStyle(color: Colors.white),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),  Text(
+                                      "${doctor.locations}" ,
+                                      style: TextStyle(color: Colors.white),
+                                      overflow: TextOverflow.ellipsis,
+                                    ), Text(
+                                      "${doctor.specialization}",
+                                      style: TextStyle(color: Colors.white),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
                                 trailing: SizedBox(
                                   width: 100,

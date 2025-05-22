@@ -5,5 +5,6 @@ class AppRoutes {
   static const String profilepage='/ProfleScreen';
   static const String BookDoctor='/BookDoctor';
   static const String ProfleScreen='/ProfleScreen';
+  static const String doctorpage='/DoctorPage';
 
 }
