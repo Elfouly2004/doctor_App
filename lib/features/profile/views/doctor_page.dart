@@ -39,14 +39,6 @@ class DoctorPage extends StatelessWidget {
         ),
 
 
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfleScreen()));
-            },
-            icon: const Icon(Icons.manage_accounts),
-          ),
-        ],
 
       ),
       body: CustomBackground(
