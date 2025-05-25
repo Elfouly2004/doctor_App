@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/background_image/custom_background.dart';
 import '../../../../core/utils/app_texts.dart';
+import '../../../search/avilaible_slots_screen.dart';
 
 class SearchArea extends StatefulWidget {
   const SearchArea({super.key});
@@ -114,24 +115,49 @@ class _SearchAreaState extends State<SearchArea> {
                     itemCount: doctors.length,
                     itemBuilder: (context, index) {
                       final doctor = doctors[index];
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: ListTile(
-                          title: Text(
-                            doctor['userName'],
-                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      return GestureDetector(
+                        onTap: () {
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookingSlotsPage(
+                                locations:doctor['locations'],
+                                price: doctor['consultationFees'] ?? 0,
+                                doctorId: doctor["id"],
+                                doctorName: doctor["userName"],
+                                doctorDescription:doctor['specialization'] ,
+                              ),
+                            ),
+                          );
+
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          subtitle: Text(
-                            doctor['specialization'],
-                            style: TextStyle(color: Colors.white.withOpacity(0.8)),
-                          ),
-                          trailing: Text(
-                            '${doctor['consultationFees']} EGP',
-                            style: const TextStyle(color: Colors.white),
+                          child: ListTile(
+                            title: Text(
+                              doctor['userName'],
+                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Column(
+                              children: [
+                                Text(
+                                  doctor['specialization'],
+                                  style: TextStyle(color: Colors.white.withOpacity(0.8)),
+                                ),      Text(
+                                  doctor['locations'],
+                                  style: TextStyle(color: Colors.white.withOpacity(0.8)),
+                                ),
+                              ],
+                            ),
+                            trailing: Text(
+                              '${doctor['consultationFees']} EGP',
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       );

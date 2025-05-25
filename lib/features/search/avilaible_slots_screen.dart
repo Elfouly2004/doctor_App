@@ -88,7 +88,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
 
     if (response.statusCode == 201) {
       Flushbar(
-        message: "تم الحجز بنجاح",
+        message: "طلبك قيد الانتظار",
         duration: const Duration(seconds: 3),
         backgroundColor: Colors.green.shade600,
         flushbarPosition: FlushbarPosition.TOP,

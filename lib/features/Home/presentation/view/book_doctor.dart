@@ -10,10 +10,12 @@ import '../../../../core/background_image/custom_background.dart';
 import 'package:doctor/core/Routes/app_routes.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_texts.dart';
+import '../../../ai/chat_page.dart';
 import '../../../new-account/data/model/location_model.dart';
 import '../../../new-account/data/model/spclazition_model.dart';
 import '../../../search/search_page.dart';
 import '../../../search/searchname.dart';
+import '../agree_booking.dart';
 
 class BookDoctor extends StatefulWidget {
   const BookDoctor({super.key});
@@ -66,24 +68,19 @@ TextEditingController name=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.ProfleScreen);
-            },
-            icon: Icon(
-              CupertinoIcons.profile_circled,
-              color: Colors.blue.withOpacity(0.8),
-            )),
-        backgroundColor: Colors.white,
+        leading: IconButton(onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AgreeBooking(),));
+        }, icon: Icon(Icons.person_outline)),
       ),
+      resizeToAvoidBottomInset: false,
+
       body: CustomBackground3(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: MediaQuery.sizeOf(context).height * 0.15),
+              SizedBox(height: MediaQuery.sizeOf(context).height * 0.22),
 
               Text(
                 "احجز دكتور",
@@ -285,13 +282,39 @@ TextEditingController name=TextEditingController();
                           ),
                         ),
                       );
+
+
+                      print(selectedSpecialization!.id);
+                      print(selectedLocation!.id);
                     }
                   }
 
 
 
+
+
+
                   },
+              ),
+
+              SizedBox(height: 160.h),
+
+
+              Padding(
+                padding: const EdgeInsets.only(left: 25.0),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child:CircleAvatar(
+                    backgroundColor: AppColors.white,
+                    radius: 40.r,
+                    child:  IconButton(onPressed: () {
+Navigator.push(context,MaterialPageRoute(builder: (context) => ChatPage(),));
+                    }, icon: Icon(Icons.chat,size: 50,color: Colors.red,)),
+
+                  )
+                ),
               )
+
             ],
           ),
         ),

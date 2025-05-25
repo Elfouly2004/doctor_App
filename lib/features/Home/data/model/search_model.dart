@@ -1,58 +1,63 @@
 class DoctorResponse {
   final List<Doctor> doctors;
-  final int totalCount;
 
   DoctorResponse({
     required this.doctors,
-    required this.totalCount,
   });
 
   factory DoctorResponse.fromJson(Map<String, dynamic> json) {
     return DoctorResponse(
-      doctors: List<Doctor>.from(json['doctors'].map((x) => Doctor.fromJson(x))),
-      totalCount: json['totalCount'],
+      doctors: List<Doctor>.from(json['data'].map((x) => Doctor.fromJson(x))),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'doctors': doctors.map((x) => x.toJson()).toList(),
-      'totalCount': totalCount,
+      'data': doctors.map((x) => x.toJson()).toList(),
     };
   }
 }
 
 class Doctor {
   final String id;
-  final Specialization specialization;
+  final String specialization; // Note: changed to String
   final int consultationFees;
   final String locations;
+  final String userName;
+  final int rate;
 
   Doctor({
     required this.id,
     required this.specialization,
     required this.consultationFees,
     required this.locations,
+    required this.userName,
+    required this.rate,
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
     return Doctor(
-      id: json['_id'],
-      specialization: Specialization.fromJson(json['specialization']),
+      id: json['id'],
+      specialization: json['specialization'],
       consultationFees: json['consultationFees'],
       locations: json['locations'],
+      userName: json['userName'],
+      rate: json['rate'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      '_id': id,
-      'specialization': specialization.toJson(),
+      'id': id,
+      'specialization': specialization,
       'consultationFees': consultationFees,
       'locations': locations,
+      'userName': userName,
+      'rate': rate,
     };
   }
 }
+
 
 class Specialization {
   final String id;

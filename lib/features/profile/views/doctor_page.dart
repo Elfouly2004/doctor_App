@@ -1,12 +1,12 @@
 import 'package:doctor/core/background_image/custom_background.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
 import '../../../core/utils/app_texts.dart';
 import '../data/model/book_model.dart';
 import '../profle_screen.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 
 Future<List<BookingModel>> fetchBookings(String doctorId) async {
   final url = Uri.parse('${AppTexts.baseurl}/booking/bookings/$doctorId');
@@ -37,6 +37,16 @@ class DoctorPage extends StatelessWidget {
           },
           icon: const Icon(Icons.person),
         ),
+
+
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfleScreen()));
+            },
+            icon: const Icon(Icons.manage_accounts),
+          ),
+        ],
 
       ),
       body: CustomBackground(

@@ -64,6 +64,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
               ),
             ),
             const SizedBox(height: 5),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40,),
               child: DropdownButton<String>(
