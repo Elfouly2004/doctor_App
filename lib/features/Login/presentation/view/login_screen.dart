@@ -91,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                         if (cubit.Email.text == "tamineproject1@gmail.com" && cubit.password.text == "12345678T#") {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorsPage()));
                         } else {
-                          await cubit.login(); // run login logic
+                          await cubit.login(); // run login logicdfr
                           final state = context.read<LoginCubit>().state;
                           if (state is LoginSuccessState) {
                             cubit.Email.clear();

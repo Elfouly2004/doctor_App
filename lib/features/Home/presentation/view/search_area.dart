@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/background_image/custom_background.dart';
+import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_texts.dart';
 import '../../../search/avilaible_slots_screen.dart';
 
@@ -17,6 +18,7 @@ class _SearchAreaState extends State<SearchArea> {
   final TextEditingController _areaController = TextEditingController();
   List<dynamic> doctors = [];
   bool isLoading = false;
+  String selectedFilter = 'None';
 
   Future<void> searchDoctors(String area) async {
     setState(() {
@@ -34,6 +36,7 @@ class _SearchAreaState extends State<SearchArea> {
         if (jsonData['success']) {
           setState(() {
             doctors = jsonData['data'];
+            applyFilter();
           });
         }
       } else {
@@ -48,32 +51,37 @@ class _SearchAreaState extends State<SearchArea> {
     }
   }
 
+  void applyFilter() {
+    if (selectedFilter == 'By Fees') {
+      doctors.sort((a, b) => (b['consultationFees'] ?? 0).compareTo(a['consultationFees'] ?? 0));
+    } else if (selectedFilter == 'By Rate') {
+      doctors.sort((a, b) => (b['rate'] ?? 0).compareTo(a['rate'] ?? 0));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomBackground(
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(26.0),
-            child: Column(
-              children: [
-
-                SizedBox(height: 110,),
-
-                // Title
-                Text(
-                  'Find Doctors by Area',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white.withOpacity(0.9),
-                  ),
+          child: Column(
+            children: [
+              const SizedBox(height: 100),
+              Text(
+                'Find Doctors by Area',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white.withOpacity(0.9),
                 ),
-                const SizedBox(height: 20),
+              ),
+              const SizedBox(height: 20),
 
-                // Search bar
-                Container(
+              // Search bar
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(30),
@@ -84,7 +92,7 @@ class _SearchAreaState extends State<SearchArea> {
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: 'Enter area name...',
-                      hintStyle: TextStyle(color: Colors.white70),
+                      hintStyle: const TextStyle(color: Colors.white70),
                       border: InputBorder.none,
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.search, color: Colors.white),
@@ -98,74 +106,160 @@ class _SearchAreaState extends State<SearchArea> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+              ),
 
-                // Result list or loading
-                Expanded(
-                  child: isLoading
-                      ? const Center(child: CircularProgressIndicator(color: Colors.white))
-                      : doctors.isEmpty
-                      ? Center(
-                    child: Text(
-                      'No doctors found.',
-                      style: TextStyle(color: Colors.white70),
-                    ),
-                  )
-                      : ListView.builder(
-                    itemCount: doctors.length,
-                    itemBuilder: (context, index) {
-                      final doctor = doctors[index];
-                      return GestureDetector(
-                        onTap: () {
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BookingSlotsPage(
-                                locations:doctor['locations'],
-                                price: doctor['consultationFees'] ?? 0,
-                                doctorId: doctor["id"],
-                                doctorName: doctor["userName"],
-                                doctorDescription:doctor['specialization'] ,
-                              ),
-                            ),
-                          );
-
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: ListTile(
-                            title: Text(
-                              doctor['userName'],
-                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Column(
-                              children: [
-                                Text(
-                                  doctor['specialization'],
-                                  style: TextStyle(color: Colors.white.withOpacity(0.8)),
-                                ),      Text(
-                                  doctor['locations'],
-                                  style: TextStyle(color: Colors.white.withOpacity(0.8)),
-                                ),
-                              ],
-                            ),
-                            trailing: Text(
-                              '${doctor['consultationFees']} EGP',
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
+              Padding(
+                padding: const EdgeInsets.only(left: 25.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: DropdownButton<String>(
+                    value: selectedFilter,
+                    dropdownColor: AppColors.button,
+                    style: const TextStyle(color: Colors.white),
+                    iconEnabledColor: Colors.white,
+                    items: <String>['None', 'price', 'rate']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
                       );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedFilter = newValue;
+                          applyFilter(); // Apply filter again on change
+                        });
+                      }
                     },
                   ),
                 ),
-              ],
-            ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Expanded(
+                child: isLoading
+                    ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                    : doctors.isEmpty
+                    ? const Center(
+                  child: Text(
+                    'No doctors found.',
+                    style: TextStyle(color: Colors.white70, fontSize: 18),
+                  ),
+                )
+                    : ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  itemCount: doctors.length,
+                  itemBuilder: (context, index) {
+                    final doctor = doctors[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.white24),
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 28,
+                              backgroundColor: Colors.grey[100],
+                              child: const Icon(Icons.person, color: Colors.blueAccent, size: 28),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    doctor['userName'] ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Specialization: ${doctor['specialization'] ?? ''}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Area: ${doctor['area'] ?? ''}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Fees: ${doctor['consultationFees'] ?? 0} EGP',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Rate: ${doctor['rate'] ?? 0}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blueAccent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>BookingSlotsPage(
+                                      doctorId: doctor['id'].toString(),
+                                      doctorName: doctor['userName'] ?? '',
+                                      doctorDescription: doctor['specialization'] ?? '',
+                                      price: doctor['consultationFees'] ?? 0,
+                                      locations: (doctor['locations'] as List<dynamic>?)?.first.toString() ?? '',
+
+                                    ),
+
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                "Book",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

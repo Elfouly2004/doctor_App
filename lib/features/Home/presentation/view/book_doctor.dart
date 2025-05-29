@@ -308,7 +308,7 @@ TextEditingController name=TextEditingController();
                     backgroundColor: AppColors.white,
                     radius: 40.r,
                     child:  IconButton(onPressed: () {
-Navigator.push(context,MaterialPageRoute(builder: (context) => ChatPage(),));
+              Navigator.push(context,MaterialPageRoute(builder: (context) => ChatPage(),));
                     }, icon: Icon(Icons.chat,size: 50,color: Colors.red,)),
 
                   )

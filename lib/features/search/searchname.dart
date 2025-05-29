@@ -124,16 +124,16 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.15),
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(color: Colors.white24),
                           ),
                           child: Row(
                             children: [
-                              const CircleAvatar(
+                               CircleAvatar(
                                 radius: 28,
-                                backgroundColor: Colors.white24,
-                                child: Icon(Icons.person, color: Colors.white, size: 28),
+                                backgroundColor: Colors.grey[100],
+                                child: Icon(Icons.person, color: AppColors.button, size: 28),
                               ),
                               const SizedBox(width: 16),
                               Expanded(
@@ -145,7 +145,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w900,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -154,7 +154,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                                       style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white70,
+                                        color: Colors.black,
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -162,7 +162,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                                       'Consultation Fees: ${doctor.consultationFees}',
                                       style: const TextStyle(
                                         fontSize: 12,
-                                        color: Colors.white70,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -171,7 +171,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                                       'Rate: ${doctor.rate}',
                                       style: const TextStyle(
                                         fontSize: 12,
-                                        color: Colors.white70,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -180,7 +180,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                               ),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white24,
+                                  backgroundColor: AppColors.button,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
