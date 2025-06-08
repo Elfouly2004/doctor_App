@@ -236,6 +236,7 @@ class _SearchAreaState extends State<SearchArea> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>BookingSlotsPage(
+                                      rate: doctor['rate'] ?? 0,
                                       doctorId: doctor['id'].toString(),
                                       doctorName: doctor['userName'] ?? '',
                                       doctorDescription: doctor['specialization'] ?? '',

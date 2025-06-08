@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:doctor/core/utils/app_colors.dart';
 import 'package:doctor/core/utils/app_texts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,13 +14,14 @@ class BookingSlotsPage extends StatefulWidget {
   final String doctorName;
   final String doctorDescription;
   final String locations;
+  final int rate;
   final int price;
 
   const BookingSlotsPage({
     Key? key,
     required this.doctorId,
     required this.doctorName,
-    required this.doctorDescription, required this.price, required this.locations,
+    required this.doctorDescription, required this.price, required this.locations, required this.rate,
   }) : super(key: key);
 
 
@@ -34,10 +36,53 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
   String? selectedScheduleId;
   String? selectedSlotId;
 
+   double currentRating = 0;
+
+
   @override
   void initState() {
     super.initState();
     fetchSlots();
+  }
+  Future<void> rateDoctor() async {
+    var box = Hive.box("setting");
+    String token = box.get("token");
+
+    final url = Uri.parse("${AppTexts.baseurl}/rate/");
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "rate": currentRating,
+        "productId": widget.doctorId,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      Flushbar(
+        message: "تم إرسال التقييم بنجاح",
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.green,
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+        icon: const Icon(Icons.star, color: Colors.white),
+      ).show(context);
+    } else {
+      print("Error response: ${response.body}"); // ⬅️ لمساعدتك على الديباج
+      Flushbar(
+        message: "فشل إرسال التقييم",
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.red,
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+        icon: const Icon(Icons.error, color: Colors.white),
+      ).show(context);
+    }
   }
 
   Future<void> fetchSlots() async {
@@ -70,7 +115,6 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
     required String patientId,
   }) async {
     final url = Uri.parse("${AppTexts.baseurl}/booking/book");
-
     final response = await http.post(
       url,
       headers: {
@@ -165,6 +209,68 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                   ],
                 ),
               ),
+
+
+              const SizedBox(height: 40),
+
+              Center(
+                child: RatingBar.builder(
+                  initialRating: currentRating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    setState(() {
+                      currentRating = rating  ;
+                    });
+                    print("Selected Rating: $currentRating");
+                  },
+                ),
+
+              ),
+
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+
+                    var box = Hive.box("setting");
+                    String token = box.get("token");
+
+                    print("DOcCCC: ${widget.doctorId}");
+                    print("Selected Rating: $currentRating");
+                    print("Selected Rating: $token");
+                    if (currentRating > 0) {
+                      rateDoctor();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("من فضلك اختر تقييم أولاً")),
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: 180,
+                    height: 48,
+                    margin: const EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "قيّم الدكتور",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
 
               const SizedBox(height: 40),
               Center(

@@ -49,6 +49,7 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_otp_text_field: ^1.5.1+1
   another_flushbar: ^1.12.30
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:

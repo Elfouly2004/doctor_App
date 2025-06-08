@@ -166,6 +166,7 @@ class _DoctorsPageState extends State<DoctorsPage> {
                           MaterialPageRoute(
                             builder: (context) => BookingSlotsPage(
                               locations: doctor.locations,
+                              rate: doctor.rate,
                               price: doctor.consultationFees,
                               doctorId: doctor.id,
                               doctorName: doctor.userName,

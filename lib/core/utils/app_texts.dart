@@ -1,5 +1,5 @@
 class AppTexts {
-  static const String baseurl= "http://192.168.1.6:3000";
+  static const String baseurl= "http://192.168.1.7:3000";
   static const String Login= "تسجيل الدخول";
   static const String register= "تسجيل ";
   static const String email= "الايميل";

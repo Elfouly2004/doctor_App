@@ -38,15 +38,17 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 100),
+            const SizedBox(height: 200),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                'Find Your Doctor',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              child: Center(
+                child: Text(
+                  'Find Your Doctor',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -130,7 +132,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                           ),
                           child: Row(
                             children: [
-                               CircleAvatar(
+                              CircleAvatar(
                                 radius: 28,
                                 backgroundColor: Colors.grey[100],
                                 child: Icon(Icons.person, color: AppColors.button, size: 28),
@@ -192,6 +194,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                                     MaterialPageRoute(
                                       builder: (context) => BookingSlotsPage(
                                         locations: doctor.locations,
+                                        rate: doctor.rate,
                                         price: doctor.consultationFees ?? 0,
                                         doctorId: doctor.id.toString(),
                                         doctorName: doctor.userName,
