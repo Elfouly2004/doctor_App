@@ -30,7 +30,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> with SingleTick
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blue.shade50,
-      body: CustomBackground3(
+      body: CustomBackground(
         child: Center(
           child: Padding(
             padding: EdgeInsets.only(top: 120.h),

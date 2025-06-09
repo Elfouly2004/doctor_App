@@ -21,30 +21,58 @@ class ChatPage extends StatelessWidget {
                 return ListView.builder(
                   padding: const EdgeInsets.all(10),
                   itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final msg = messages[index];
-                    return Align(
-                      alignment: msg.isUser
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 4),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: msg.isUser
-                              ? Colors.blueAccent
-                              : Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          msg.text,
-                          style: TextStyle(
-                            color: msg.isUser ? Colors.white : Colors.black,
+                    itemBuilder: (context, index) {
+                      final msg = messages[index];
+
+                      if (msg.specialty != null) {
+                        // رسالة من نوع الرد الطبي من البوت (ليست من المستخدم)
+                        return Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "التخصص: ${msg.specialty}",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 8),
+                                Text("الأطباء:"),
+                                ...?msg.doctors?.map((doc) => Text("- $doc")),
+                                SizedBox(height: 8),
+                                Text(
+                                  "النصيحة الطبية:",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(msg.medicalAdvice ?? ""),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+
+                      return Align(
+                        alignment: msg.isUser ? Alignment.centerRight : Alignment.centerLeft,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 4),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: msg.isUser ? Colors.blueAccent : Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            msg.text ?? "",
+                            style: TextStyle(color: msg.isUser ? Colors.white : Colors.black),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    }
                 );
               },
             ),

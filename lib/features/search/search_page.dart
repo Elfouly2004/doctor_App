@@ -55,13 +55,9 @@ class DoctorsPage extends StatefulWidget {
 class _DoctorsPageState extends State<DoctorsPage> {
   late Future<DoctorResponse> futureDoctors;
 
-  // قيمة الفلتر اللي المستخدم اختارها
   String selectedFilter = 'None';
 
-  // القائمة الكاملة بدون فلترة
   List<Doctor> allDoctors = [];
-
-  // القائمة المعروضة بعد الفلترة
   List<Doctor> filteredDoctors = [];
 
   @override
@@ -89,9 +85,9 @@ class _DoctorsPageState extends State<DoctorsPage> {
   void applyFilter() {
     List<Doctor> temp = List.from(allDoctors);
 
-    if (selectedFilter == 'consultationFees') {
+    if (selectedFilter == 'Fees: Low to High') {
       temp.sort((a, b) => a.consultationFees.compareTo(b.consultationFees));
-    } else if (selectedFilter == 'rate') {
+    } else if (selectedFilter == 'Rating: High to Low') {
       temp.sort((a, b) => b.rate.compareTo(a.rate));
     } else {
       temp = List.from(allDoctors);
@@ -129,8 +125,11 @@ class _DoctorsPageState extends State<DoctorsPage> {
                     dropdownColor: AppColors.button,
                     style: const TextStyle(color: Colors.white),
                     iconEnabledColor: Colors.white,
-                    items: <String>['None', 'price', 'rate']
-                        .map<DropdownMenuItem<String>>((String value) {
+                    items: <String>[
+                      'None',
+                      'Fees: Low to High',
+                      'Rating: High to Low',
+                    ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -152,7 +151,12 @@ class _DoctorsPageState extends State<DoctorsPage> {
 
               Expanded(
                 child: filteredDoctors.isEmpty
-                    ? const Center(child: Text('No doctors found.', style: TextStyle(color: Colors.white)))
+                    ? const Center(
+                  child: Text(
+                    'No doctors found.',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
                     : ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   itemCount: filteredDoctors.length,

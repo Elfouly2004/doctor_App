@@ -57,16 +57,18 @@ class DoctorsPage extends StatelessWidget {
                                     ),  Text(
                                       doctor.description ?? 'No name',
                                       style: TextStyle(color: Colors.white),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),  Text(
-                                      "${doctor.locations}" ,
-                                      style: TextStyle(color: Colors.white),
-                                      overflow: TextOverflow.ellipsis,
-                                    ), Text(
-                                      "${doctor.specialization}",
+                                      maxLines: 3,
+                                    ),Text(
+                                      doctor.locations?.name ?? '',
                                       style: TextStyle(color: Colors.white),
                                       overflow: TextOverflow.ellipsis,
                                     ),
+                                    Text(
+                                      doctor.specialization?.name ?? '',
+                                      style: TextStyle(color: Colors.white),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+
                                   ],
                                 ),
                                 trailing: SizedBox(

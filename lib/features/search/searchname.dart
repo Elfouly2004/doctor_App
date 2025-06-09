@@ -20,7 +20,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
   @override
   void initState() {
     super.initState();
-    futureDoctors = getDoctorsByName(name: '');
+    futureDoctors = getDoctorsByName(name: 'ا');
   }
 
   void searchDoctorsByName() {
@@ -66,17 +66,19 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
               ),
             ),
             const SizedBox(height: 5),
-
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40,),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: DropdownButton<String>(
-
                 value: selectedFilter,
                 dropdownColor: AppColors.button,
                 style: const TextStyle(color: Colors.white),
                 iconEnabledColor: Colors.white,
-                items: <String>['None', 'By Fees', 'By Rate']
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: <String>[
+                  'None',
+                  'By Fees',
+                  'Rate: High to Low',
+                  'Rate: Low to High'
+                ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -108,14 +110,19 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
 
                   final doctors = snapshot.data!.data;
 
+                  // Sorting logic
                   if (selectedFilter == 'By Fees') {
-                    doctors.sort((a, b) => b.consultationFees.compareTo(a.consultationFees));
-                  } else if (selectedFilter == 'By Rate') {
+                    doctors.sort((a, b) =>
+                        b.consultationFees.compareTo(a.consultationFees));
+                  } else if (selectedFilter == 'Rate: High to Low') {
                     doctors.sort((a, b) => b.rate.compareTo(a.rate));
+                  } else if (selectedFilter == 'Rate: Low to High') {
+                    doctors.sort((a, b) => a.rate.compareTo(b.rate));
                   }
 
                   return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     itemCount: doctors.length,
                     itemBuilder: (context, index) {
                       final doctor = doctors[index];
@@ -135,7 +142,8 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                               CircleAvatar(
                                 radius: 28,
                                 backgroundColor: Colors.grey[100],
-                                child: Icon(Icons.person, color: AppColors.button, size: 28),
+                                child: Icon(Icons.person,
+                                    color: AppColors.button, size: 28),
                               ),
                               const SizedBox(width: 16),
                               Expanded(
@@ -186,7 +194,8 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 10),
                                 ),
                                 onPressed: () {
                                   Navigator.push(
@@ -198,7 +207,8 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                                         price: doctor.consultationFees ?? 0,
                                         doctorId: doctor.id.toString(),
                                         doctorName: doctor.userName,
-                                        doctorDescription: doctor.specialization,
+                                        doctorDescription:
+                                        doctor.specialization,
                                       ),
                                     ),
                                   );

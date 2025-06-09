@@ -75,7 +75,7 @@ TextEditingController name=TextEditingController();
       ),
       resizeToAvoidBottomInset: false,
 
-      body: CustomBackground3(
+      body: CustomBackground(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

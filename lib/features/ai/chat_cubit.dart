@@ -27,9 +27,10 @@ class ChatCubit extends Cubit<ChatState> {
         final data = jsonDecode(response.body);
         final specialty = data['specialty'];
         final doctors = (data['doctors'] as List).join('\n- ');
+        final massage = data['medicalAdvice'];
 
         final reply =
-            'التخصص المناسب: $specialty\n\nالأطباء:\n- $doctors';
+            'التخصص المناسب: $specialty\n\nالأطباء:\n- $doctors \n $massage';
 
         messages.add(ChatMessage(text: reply, isUser: false));
         emit(ChatUpdated(messages: List.from(messages)));

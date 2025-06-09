@@ -48,17 +48,13 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
     var box = Hive.box("setting");
     String token = box.get("token");
 
-    final url = Uri.parse("${AppTexts.baseurl}/rate/");
+    final url = Uri.parse("${AppTexts.baseurl}/rate/${widget.doctorId}/$currentRating");
     final response = await http.post(
       url,
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
       },
-      body: jsonEncode({
-        "rate": currentRating,
-        "productId": widget.doctorId,
-      }),
     );
 
     if (response.statusCode == 201) {
@@ -72,7 +68,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
         icon: const Icon(Icons.star, color: Colors.white),
       ).show(context);
     } else {
-      print("Error response: ${response.body}"); // ⬅️ لمساعدتك على الديباج
+      print("Error response: ${response.body}");
       Flushbar(
         message: "فشل إرسال التقييم",
         duration: const Duration(seconds: 3),
@@ -364,36 +360,40 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                             ),
                           ),
                           const SizedBox(height: 15),
-                          Wrap(
-                            spacing: 10,
-                            children: selectedSchedule!.slots.map((slot) {
-                              final isSelected = selectedSlotId == slot.id;
-
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedSlotId = slot.id;
-                                  });
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 12),
-                                  decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? Colors.green.withOpacity(0.5)
-                                        : Colors.white.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                        color: isSelected ? Colors.green : Colors.white30),
-                                  ),
-                                  child: Text(
-                                    "${slot.startTime} - ${slot.endTime}",
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                          SizedBox(
+                            height: 100,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: selectedSchedule!.slots.map((slot) {
+                                  final isSelected = selectedSlotId == slot.id;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedSlotId = slot.id;
+                                      });
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(right: 10),
+                                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? Colors.green.withOpacity(0.5)
+                                            : Colors.white.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(color: isSelected ? Colors.green : Colors.white30),
+                                      ),
+                                      child: Text(
+                                        "${slot.startTime} - ${slot.endTime}",
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
                           ),
+
                         ],
                       ),
                   ],
