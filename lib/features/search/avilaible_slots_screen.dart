@@ -3,6 +3,7 @@ import 'package:doctor/core/utils/app_colors.dart';
 import 'package:doctor/core/utils/app_texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -162,20 +163,19 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 150),
+               SizedBox(height: 220.h),
 
-              // Doctor Info
               Container(
                 margin: const EdgeInsets.all(16),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.white24),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.person, color: Colors.white, size: 40),
+                    const Icon(Icons.person, color: AppColors.button, size: 40),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -185,20 +185,20 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                               style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
+                                  color: Colors.black)),
                           const SizedBox(height: 4),
-                          Text("specialization:${widget.doctorDescription}",
+                          Text("specialization: ${widget.doctorDescription}",
                               style: const TextStyle(
-                                  fontSize: 12, color: Colors.white70)),
+                                  fontSize: 14, color: Colors.black)),
 
                           const SizedBox(height: 4),
-                          Text("location:${widget.locations}",
+                          Text("location: ${widget.locations}",
                               style: const TextStyle(
-                                  fontSize: 12, color: Colors.white70)),
+                                  fontSize: 14, color: Colors.black)),
                           const SizedBox(height: 4),
-                          Text("Price :${widget.price}",
+                          Text("Price : ${widget.price}",
                               style: const TextStyle(
-                                  fontSize: 12, color: Colors.white70)),
+                                  fontSize: 14, color: Colors.black)),
                         ],
                       ),
                     ),

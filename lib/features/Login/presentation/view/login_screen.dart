@@ -81,7 +81,7 @@ class LoginScreen extends StatelessWidget {
 
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
 
-                  CustomRowField(txt: AppTexts.pass, controller: cubit.password),
+                  CustomRowField(txt: AppTexts.pass, controller: cubit.password,obscureText: true,),
 
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
 
