@@ -9,7 +9,7 @@ class Doctor {
   final String specialization;
   final String locations;
   final int consultationFees;
-  final int rate;
+  final double rate;
 
   Doctor( {required this.id, required this.userName, required this. specialization, required this.locations, required this.consultationFees, required this.rate,});
 
@@ -20,7 +20,7 @@ class Doctor {
       specialization: json['specialization'],
       locations: json['locations'],
       consultationFees: json['consultationFees'],
-      rate: json['rate'],
+      rate: (json['rate'] as num).toDouble(),
     );
   }
 }
@@ -43,7 +43,8 @@ class DoctorResponse2 {
 
 
 Future<DoctorResponse2> getDoctorsByName({required String name}) async {
-  final Uri url = Uri.parse('${AppTexts.baseurl}/doctor/search?name=$name');
+  final Uri url = Uri.parse('${AppTexts.baseurl}/doctor/search?name=${Uri.encodeQueryComponent(name)}');
+  print('Calling URL: $url');
 
   final response = await http.get(url);
 
@@ -51,6 +52,7 @@ Future<DoctorResponse2> getDoctorsByName({required String name}) async {
     final data = json.decode(response.body);
     return DoctorResponse2.fromJson(data);
   } else {
+    print('Response body: ${response.body}');
     throw Exception('Failed to load doctors: ${response.statusCode}');
   }
 }

@@ -110,7 +110,6 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
 
                   final doctors = snapshot.data!.data;
 
-                  // Sorting logic
                   if (selectedFilter == 'By Fees') {
                     doctors.sort((a, b) =>
                         b.consultationFees.compareTo(a.consultationFees));
@@ -126,7 +125,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                     itemCount: doctors.length,
                     itemBuilder: (context, index) {
                       final doctor = doctors[index];
-
+                      print(doctor.userName);
                       return Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Container(
@@ -203,7 +202,7 @@ class _DoctorsPage2State extends State<DoctorsPage2> {
                                     MaterialPageRoute(
                                       builder: (context) => BookingSlotsPage(
                                         locations: doctor.locations,
-                                        rate: doctor.rate,
+                                        rate: doctor.rate.toInt(),
                                         price: doctor.consultationFees ?? 0,
                                         doctorId: doctor.id.toString(),
                                         doctorName: doctor.userName,

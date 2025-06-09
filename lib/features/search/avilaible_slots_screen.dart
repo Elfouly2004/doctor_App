@@ -207,7 +207,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
               ),
 
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 10),
 
               Center(
                 child: RatingBar.builder(
@@ -268,7 +268,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
               ),
 
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 10),
               Center(
                 child: Text("المواعيد المتاحه ",
                     style: TextStyle(
@@ -276,7 +276,6 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                         fontSize: 25,
                         fontWeight: FontWeight.bold)),
               ),
-              const SizedBox(height: 20),
 
               isLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -293,7 +292,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        height: 140,
+                        height: 130,
                         width: 300,
                         child: GridView.builder(
                           scrollDirection: Axis.horizontal,
@@ -313,11 +312,11 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                                 setState(() {
                                   selectedSchedule = schedule;
                                   selectedScheduleId = schedule.scheduleId;
-                                  selectedSlotId = null; // Reset when changing day
+                                  selectedSlotId = null;
                                 });
                               },
                               child: Container(
-                                padding: const EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: isSelected
                                       ? Colors.blue.withOpacity(0.4)
@@ -345,7 +344,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 5),
 
                     if (selectedSchedule != null)
                       Column(
@@ -361,7 +360,8 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                           ),
                           const SizedBox(height: 15),
                           SizedBox(
-                            height: 100,
+                            height: 40,
+                            width: double.infinity,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
@@ -374,6 +374,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                                       });
                                     },
                                     child: Container(
+                                      height: 60,
                                       margin: const EdgeInsets.only(right: 10),
                                       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                                       decoration: BoxDecoration(
@@ -400,7 +401,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
               Center(
                 child: GestureDetector(
@@ -442,7 +443,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                 ),
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 10),
             ],
           ),
         ),
