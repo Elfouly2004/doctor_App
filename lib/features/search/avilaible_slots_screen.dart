@@ -157,13 +157,13 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomBackground(
+      body: CustomBackground2(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               SizedBox(height: 220.h),
+               SizedBox(height: 180.h),
 
               Container(
                 margin: const EdgeInsets.all(16),
@@ -174,32 +174,41 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                   border: Border.all(color: Colors.white24),
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Icon(Icons.person, color: AppColors.button, size: 40),
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor:Colors.grey.shade200,
+                      child:   Icon(Icons.person, color: AppColors.button, size: 60),
+
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.doctorName,
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                          const SizedBox(height: 4),
-                          Text("specialization: ${widget.doctorDescription}",
-                              style: const TextStyle(
-                                  fontSize: 14, color: Colors.black)),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(widget.doctorName,
+                                style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                            const SizedBox(height: 4),
+                            Text("التخصص : ${widget.doctorDescription}",
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black)),
 
-                          const SizedBox(height: 4),
-                          Text("location: ${widget.locations}",
-                              style: const TextStyle(
-                                  fontSize: 14, color: Colors.black)),
-                          const SizedBox(height: 4),
-                          Text("Price : ${widget.price}",
-                              style: const TextStyle(
-                                  fontSize: 14, color: Colors.black)),
-                        ],
+                            const SizedBox(height: 4),
+                            Text("المنطقه : ${widget.locations}",
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black)),
+                            const SizedBox(height: 4),
+                            Text("السعر : ${widget.price} ج",
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black)),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -207,72 +216,12 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
               ),
 
 
-              const SizedBox(height: 10),
-
-              Center(
-                child: RatingBar.builder(
-                  initialRating: currentRating,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (rating) {
-                    setState(() {
-                      currentRating = rating  ;
-                    });
-                    print("Selected Rating: $currentRating");
-                  },
-                ),
-
-              ),
-
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-
-                    var box = Hive.box("setting");
-                    String token = box.get("token");
-
-                    print("DOcCCC: ${widget.doctorId}");
-                    print("Selected Rating: $currentRating");
-                    print("Selected Rating: $token");
-                    if (currentRating > 0) {
-                      rateDoctor();
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("من فضلك اختر تقييم أولاً")),
-                      );
-                    }
-                  },
-                  child: Container(
-                    width: 180,
-                    height: 48,
-                    margin: const EdgeInsets.only(top: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.orange,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "قيّم الدكتور",
-                        style: TextStyle(fontSize: 18, color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
 
               const SizedBox(height: 10),
               Center(
                 child: Text("المواعيد المتاحه ",
                     style: TextStyle(
-                        color: AppColors.white,
+                        color: AppColors.black,
                         fontSize: 25,
                         fontWeight: FontWeight.bold)),
               ),
@@ -292,7 +241,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        height: 130,
+                        height: 120,
                         width: 300,
                         child: GridView.builder(
                           scrollDirection: Axis.horizontal,
@@ -379,14 +328,14 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                                       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                                       decoration: BoxDecoration(
                                         color: isSelected
-                                            ? Colors.green.withOpacity(0.5)
-                                            : Colors.white.withOpacity(0.1),
+                                            ? Colors.green.withOpacity(0.9)
+                                            : Colors.white.withOpacity(0.5),
                                         borderRadius: BorderRadius.circular(12),
                                         border: Border.all(color: isSelected ? Colors.green : Colors.white30),
                                       ),
                                       child: Text(
                                         "${slot.startTime} - ${slot.endTime}",
-                                        style: const TextStyle(color: Colors.white),
+                                        style: const TextStyle(color: Colors.black),
                                       ),
                                     ),
                                   );
@@ -401,7 +350,68 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                 ),
               ),
 
-              const SizedBox(height: 10),
+
+
+              Align(
+                alignment: Alignment.bottomRight,
+                child: RatingBar.builder(
+                  initialRating: currentRating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    setState(() {
+                      currentRating = rating  ;
+                    });
+                    print("Selected Rating: $currentRating");
+                  },
+                ),
+              ),
+
+              Align(
+                alignment: Alignment.bottomRight,
+
+                child: GestureDetector(
+                  onTap: () {
+
+                    var box = Hive.box("setting");
+                    String token = box.get("token");
+
+                    print("DOcCCC: ${widget.doctorId}");
+                    print("Selected Rating: $currentRating");
+                    print("Selected Rating: $token");
+                    if (currentRating > 0) {
+                      rateDoctor();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("من فضلك اختر تقييم أولاً")),
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: 180,
+                    height: 48,
+                    margin: const EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "قيّم الدكتور",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 40),
 
               Center(
                 child: GestureDetector(
@@ -443,7 +453,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
             ],
           ),
         ),
