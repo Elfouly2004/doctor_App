@@ -242,6 +242,8 @@ class _SearchAreaState extends State<SearchArea> {
                                       doctorDescription: doctor['specialization'] ?? '',
                                       price: doctor['consultationFees'] ?? 0,
                                       locations: (doctor['locations'] as List<dynamic>?)?.first.toString() ?? '',
+                                      phone: doctor['phone'] ?? '',
+                                      description: doctor['description'] ?? '',
 
                                     ),
 

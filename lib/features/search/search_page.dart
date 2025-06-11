@@ -175,6 +175,8 @@ class _DoctorsPageState extends State<DoctorsPage> {
                               doctorId: doctor.id,
                               doctorName: doctor.userName,
                               doctorDescription: "",
+                              phone: doctor.phone,
+                              description: doctor.description,
                             ),
                           ),
                         );

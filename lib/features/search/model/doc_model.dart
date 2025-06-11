@@ -9,9 +9,15 @@ class Doctor {
   final String specialization;
   final String locations;
   final int consultationFees;
+  final String phone;
+  final String description;
   final double rate;
 
-  Doctor( {required this.id, required this.userName, required this. specialization, required this.locations, required this.consultationFees, required this.rate,});
+  Doctor( {required this.id, required this.userName,
+    required this. specialization, required this.locations,
+    required this.consultationFees, required this.rate,
+    required this.phone, required this.description,
+  });
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
     return Doctor(
@@ -21,6 +27,9 @@ class Doctor {
       locations: json['locations'],
       consultationFees: json['consultationFees'],
       rate: (json['rate'] as num).toDouble(),
+      phone: json['phone'],
+      description: json['description'],
+
     );
   }
 }

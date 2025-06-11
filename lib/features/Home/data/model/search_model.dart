@@ -25,6 +25,8 @@ class Doctor {
   final String locations;
   final String userName;
   final int rate;
+  final String description;
+  final String phone;
 
   Doctor({
     required this.id,
@@ -33,6 +35,8 @@ class Doctor {
     required this.locations,
     required this.userName,
     required this.rate,
+    required this.description,
+    required this.phone,
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
@@ -43,6 +47,8 @@ class Doctor {
       locations: json['locations'],
       userName: json['userName'],
       rate: json['rate'],
+      description: json['description'],
+      phone: json['phone'],
     );
   }
 

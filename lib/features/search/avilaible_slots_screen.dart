@@ -15,6 +15,9 @@ class BookingSlotsPage extends StatefulWidget {
   final String doctorName;
   final String doctorDescription;
   final String locations;
+  final String phone;
+  final String description;
+
   final int rate;
   final int price;
 
@@ -22,7 +25,7 @@ class BookingSlotsPage extends StatefulWidget {
     Key? key,
     required this.doctorId,
     required this.doctorName,
-    required this.doctorDescription, required this.price, required this.locations, required this.rate,
+    required this.doctorDescription, required this.price, required this.locations, required this.rate, required this.phone, required this.description,
   }) : super(key: key);
 
 
@@ -163,7 +166,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               SizedBox(height: 180.h),
+               SizedBox(height: 160.h),
 
               Container(
                 margin: const EdgeInsets.all(16),
@@ -191,7 +194,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                           children: [
                             Text(widget.doctorName,
                                 style: const TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 23,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black)),
                             const SizedBox(height: 4),
@@ -205,6 +208,13 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                                     fontSize: 16, color: Colors.black)),
                             const SizedBox(height: 4),
                             Text("السعر : ${widget.price} ج",
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black)),        const SizedBox(height: 4),
+                            Text("الوصف : ${widget.description} ",
+                                maxLines: 2,
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black,)),        const SizedBox(height: 4),
+                            Text("الهاتف : ${widget.phone}",
                                 style: const TextStyle(
                                     fontSize: 16, color: Colors.black)),
                           ],
@@ -453,7 +463,7 @@ class _BookingSlotsPageState extends State<BookingSlotsPage> {
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
             ],
           ),
         ),
